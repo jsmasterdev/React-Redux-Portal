@@ -108,7 +108,6 @@ class Adduserform extends Component {
         if(this.props.userUpdateData){
             updateData=this.props.userUpdateData;
             roles = updateData.roles;
-            console.log('11123', updateData)
             if(roles){
                 // roledata=roles[0].name;
             }
@@ -183,7 +182,6 @@ class Adduserform extends Component {
                         </Col>
                     </Form.Group>
                 </Form>
-                {/* } */}
             </div>
         );
     }

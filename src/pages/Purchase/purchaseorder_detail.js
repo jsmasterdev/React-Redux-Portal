@@ -39,12 +39,14 @@ class Purchaseorderdtail extends Component {
             vatCodeList: [], 
             purchaseOrderDocList: []
         }
-      }
+    }
+
     componentDidMount() {
         this.getPurchaseOrder();
         this.getPurchaseOrderLines();
         this.getPurchaseTransportManual();
     }
+
     getPurchaseOrder() {
         var params= {
             "purchaseorderid":this.props.newId
@@ -541,6 +543,6 @@ class Purchaseorderdtail extends Component {
                 />
             </div>
         )
-        };
-  }
-  export default connect(mapStateToProps, mapDispatchToProps)(Purchaseorderdtail);
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Purchaseorderdtail);

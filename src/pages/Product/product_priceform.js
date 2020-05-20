@@ -25,157 +25,161 @@ const mapDispatchToProps = dispatch => ({
     removeState: () =>
         dispatch(authAction.blankdispatch()),
 });
+
 class Productpriceform extends Component {
       constructor(props) {
-          super(props);
-          let today = new Date();
-          let year = today.getFullYear();
-          this.state = {  
-              token: window.localStorage.getItem('token'),
-              transportlist:[],
-              modalShow: false,
-              redirect: false,
-              startdate: '',
-              enddate: '',
-              product_id: "",
-              transprot_key: "",
-              pricetype: "",
-              title: "",
-              currentYear: year,
-              startSelectDate: new Date(year+'-01-01'),
-              endSelectDate: new Date(year+'-12-31'),
-              flag: false
-              
-          };
-        }
-      componentWillUnmount() {
+        super(props);
+        let today = new Date();
+        let year = today.getFullYear();
+        this.state = {  
+            token: window.localStorage.getItem('token'),
+            transportlist:[],
+            modalShow: false,
+            redirect: false,
+            startdate: '',
+            enddate: '',
+            product_id: "",
+            transprot_key: "",
+            pricetype: "",
+            title: "",
+            currentYear: year,
+            startSelectDate: new Date(year+'-01-01'),
+            endSelectDate: new Date(year+'-12-31'),
+            flag: false
+            
+        };
+    }
+
+    componentWillUnmount() {
         this._isMounted = false;
-      }
-      handleSubmit = (event) => {
-          let url=""
-          event.preventDefault();
-          const clientFormData = new FormData(event.target);
-          const data = {};
-          for (let key of clientFormData.keys()) {
-          data[key] = clientFormData.get(key);
-          }
-          this.setState({token:data.token});
-          let productId ={
-            productid: this.props.productid
-          }
-          let priceParams = {}
-          var headers = SessionManager.shared().getAuthorizationHeader();
-          if(this.props.price_flag!==3){
-                if(this.props.price_flag===1){
-                    if(!this.props.editpriceflag){
-                        url=API.PostPurchasePrice;
-                    }else{
-                        url=API.PutPurchasePrice;
-                    }
-                    if(!this.props.editpriceflag){
-                        priceParams = {
-                            productid: this.props.productid,
-                            startdate: Common.formatDateSecond(data.startdate),
-                            enddate: Common.formatDateSecond(data.enddate),
-                            price: Common.formatDecimal(data.price)
-                        }
-                    }else{
-                        priceParams = {
-                            id: this.props.editpricedata.Id,
-                            startdate: Common.formatDateSecond(data.startdate),
-                            enddate: Common.formatDateSecond(data.enddate),
-                            price: Common.formatDecimal(data.price)
-                        }
-                    }
-                }else if(this.props.price_flag===2){
-                    if(!this.props.editpriceflag){
-                        url=API.PostSalesPrice;
-                    }else{
-                        url=API.PutSalesPrice;
-                    }
-                    if(!this.props.editpriceflag){
-                        priceParams = {
-                            productid: this.props.productid,
-                            startdate: Common.formatDateSecond(data.startdate),
-                            enddate: Common.formatDateSecond(data.enddate),
-                            price: Common.formatDecimal(data.price)
-                        }
-                    }else{
-                        priceParams = {
-                            id: this.props.editpricedata.Id,
-                            startdate: Common.formatDateSecond(data.startdate),
-                            enddate: Common.formatDateSecond(data.enddate),
-                            price: Common.formatDecimal(data.price)
-                        }
-                    }
-                }
-                Axios.post(url, priceParams, headers)
-                .then(response => {
-                    if(response.data.Success===true){
-                        this.setState({ 
-                            startdate:'',
-                            enddate:''
-                        })
-                        Axios.post(API.PostPricechangeTask, productId, headers)
-                        .then(result => {
-                            console.log("OK");
-                        });
-                        if(this.props.editpriceflag){
-                            this.props.viewPurchaseLine(data.startdate, data.enddate, data.price, this.props.price_flag, null);
-                        }
-                        this.props.onHide();
-                        if(this.props.price_flag===1){
-                            this.props.onGetPurchasePrice();
-                        }else if(this.props.price_flag===2){
-                            this.props.onGetSalesPrice();
-                        }
-                    }
-                })
-            }else{
-                let transportParams = {};
+    }
+
+    handleSubmit = (event) => {
+        let url=""
+        event.preventDefault();
+        const clientFormData = new FormData(event.target);
+        const data = {};
+        for (let key of clientFormData.keys()) {
+        data[key] = clientFormData.get(key);
+        }
+        this.setState({token:data.token});
+        let productId ={
+        productid: this.props.productid
+        }
+        let priceParams = {}
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        if(this.props.price_flag!==3){
+            if(this.props.price_flag===1){
                 if(!this.props.editpriceflag){
-                    url = API.PostTransportPrice;
-                    transportParams = {
+                    url=API.PostPurchasePrice;
+                }else{
+                    url=API.PutPurchasePrice;
+                }
+                if(!this.props.editpriceflag){
+                    priceParams = {
                         productid: this.props.productid,
                         startdate: Common.formatDateSecond(data.startdate),
                         enddate: Common.formatDateSecond(data.enddate),
-                        pricingType: data.pricingtype,
-                        transporter: data.transport,
                         price: Common.formatDecimal(data.price)
                     }
                 }else{
-                    url = API.PutTransportPrice;
-                    transportParams = {
+                    priceParams = {
                         id: this.props.editpricedata.Id,
                         startdate: Common.formatDateSecond(data.startdate),
                         enddate: Common.formatDateSecond(data.enddate),
                         price: Common.formatDecimal(data.price)
                     }
                 }
-                Axios.post(url, transportParams, headers)
-                .then(result => {
-                    if(result.data.Success){
-                        this.setState({
-                            startdate:'',
-                            enddate:''
-                        })
-                        var headers = SessionManager.shared().getAuthorizationHeader();
-                        Axios.post(API.PostPricechangeTask, productId, headers)
-                        .then(result => {
-                            console.log("OK");
-                        });
-                        if(this.props.editpriceflag){
-                            this.props.viewPurchaseLine(data.startdate, data.enddate, data.price, this.props.price_flag, this.props.editpricedata.TransporterCode);
-                        }
-                        this.props.onHide();
-                        this.props.onGetTransportPrice()
-                    }else{
-                        this.props.postPriceError(trls("Please_set_pricetype"))
+            }else if(this.props.price_flag===2){
+                if(!this.props.editpriceflag){
+                    url=API.PostSalesPrice;
+                }else{
+                    url=API.PutSalesPrice;
+                }
+                if(!this.props.editpriceflag){
+                    priceParams = {
+                        productid: this.props.productid,
+                        startdate: Common.formatDateSecond(data.startdate),
+                        enddate: Common.formatDateSecond(data.enddate),
+                        price: Common.formatDecimal(data.price)
                     }
-                    
-                });
+                }else{
+                    priceParams = {
+                        id: this.props.editpricedata.Id,
+                        startdate: Common.formatDateSecond(data.startdate),
+                        enddate: Common.formatDateSecond(data.enddate),
+                        price: Common.formatDecimal(data.price)
+                    }
+                }
             }
+            Axios.post(url, priceParams, headers)
+            .then(response => {
+                if(response.data.Success===true){
+                    this.setState({ 
+                        startdate:'',
+                        enddate:''
+                    })
+                    Axios.post(API.PostPricechangeTask, productId, headers)
+                    .then(result => {
+                        console.log("OK");
+                    });
+                    if(this.props.editpriceflag){
+                        this.props.viewPurchaseLine(data.startdate, data.enddate, data.price, this.props.price_flag, null);
+                    }
+                    this.props.onHide();
+                    if(this.props.price_flag===1){
+                        this.props.onGetPurchasePrice();
+                    }else if(this.props.price_flag===2){
+                        this.props.onGetSalesPrice();
+                    }
+                }
+            })
+        }else{
+            let transportParams = {};
+            if(!this.props.editpriceflag){
+                url = API.PostTransportPrice;
+                transportParams = {
+                    productid: this.props.productid,
+                    startdate: Common.formatDateSecond(data.startdate),
+                    enddate: Common.formatDateSecond(data.enddate),
+                    pricingType: data.pricingtype,
+                    transporter: data.transport,
+                    price: Common.formatDecimal(data.price)
+                }
+            }else{
+                url = API.PutTransportPrice;
+                transportParams = {
+                    id: this.props.editpricedata.Id,
+                    startdate: Common.formatDateSecond(data.startdate),
+                    enddate: Common.formatDateSecond(data.enddate),
+                    price: Common.formatDecimal(data.price)
+                }
+            }
+            Axios.post(url, transportParams, headers)
+            .then(result => {
+                if(result.data.Success){
+                    this.setState({
+                        startdate:'',
+                        enddate:''
+                    })
+                    var headers = SessionManager.shared().getAuthorizationHeader();
+                    Axios.post(API.PostPricechangeTask, productId, headers)
+                    .then(result => {
+                        console.log("OK");
+                    });
+                    if(this.props.editpriceflag){
+                        this.props.viewPurchaseLine(data.startdate, data.enddate, data.price, this.props.price_flag, this.props.editpricedata.TransporterCode);
+                    }
+                    this.props.onHide();
+                    this.props.onGetTransportPrice()
+                }else{
+                    this.props.postPriceError(trls("Please_set_pricetype"))
+                }
+                
+            });
         }
+    }
+
     componentDidMount() {
         const data = {
             "url": API.GetTransportersDropdown,
@@ -191,6 +195,7 @@ class Productpriceform extends Component {
               this.setState({transportlist: response.Items})
         })
     }
+    
     onHide = () => {
         this.props.onHide();
         this.props.onRemoveState();

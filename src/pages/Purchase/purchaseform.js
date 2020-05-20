@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
     saveSalesOder: (params) =>
         dispatch(salesAction.saveSalesOrder(params))
 });
+
 class Purchaseform extends Component {
     _isMounted = false;
     constructor(props) {

@@ -39,6 +39,7 @@ class Addmanuallytransport extends Component {
             editQuantityFlag: false
         };
     }
+    
     componentWillUnmount() {
         this._isMounted = false;
     }

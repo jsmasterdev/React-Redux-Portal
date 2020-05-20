@@ -56,10 +56,6 @@ class Purchaseupdateform extends Component {
     }
 
     componentDidMount() {
-        // $("#myModal").draggable({
-        //     handle: ".modal-header"
-        // });
-      
         this.getSupplierList();
         this.getTransportersList();     
     }
@@ -286,7 +282,6 @@ class Purchaseupdateform extends Component {
         const { pageLodingFlag } = this.state;
         return (
             <Modal
-                // id={"myModal"}
                 dialogAs={DraggableModalDialog}
                 show={this.props.show}
                 onHide={this.props.onHide}

@@ -22,6 +22,7 @@ class Purhcaselinkechangeform extends Component {
             purchaseLineDataArray: []
         };
     }
+    
     componentWillUnmount() {
         this._isMounted = false;
     }

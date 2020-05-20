@@ -22,6 +22,7 @@ const mapStateToProps = state => ({ ...state.auth });
 const mapDispatchToProps = dispatch => ({
     
 });
+
 class Userregister extends Component {
     _isMounted = false
     constructor(props) {
@@ -309,7 +310,6 @@ class Userregister extends Component {
                 
             </div>
         )
-        };
-  }
-    
-  export default connect(mapStateToProps, mapDispatchToProps)(Userregister);
+    };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Userregister);

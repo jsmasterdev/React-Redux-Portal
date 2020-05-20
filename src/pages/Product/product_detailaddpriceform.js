@@ -20,6 +20,7 @@ const mapStateToProps = state => ({ ...state.auth });
 const mapDispatchToProps = dispatch => ({
 
 });
+
 class Productdtail extends Component {
     constructor(props) {
         super(props);
@@ -135,6 +136,7 @@ class Productdtail extends Component {
         formatDate = dd+'-'+mm+'-'+yyyy;
         return formatDate;
     }
+    
     formatNumber = (num) => {
         return  "€" + num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     }

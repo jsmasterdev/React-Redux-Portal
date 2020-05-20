@@ -12,7 +12,6 @@ import Axios from 'axios';
 import Select from 'react-select';
 import * as Common from '../../components/common';
 import FlashMassage from 'react-flash-message'
-// import Salesdetailfrom from "../Sales/salesorder_detailform";
 import Setlanguageform from "./setlanguage_form";
 import Filtercomponent from '../../components/filtercomponent';
 import Salesorderdetail from '../Sales/selesorder_detail';
@@ -28,6 +27,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 
 }); 
+
 class Taskoverview extends Component {
     _isMounted = false
     constructor(props) {
@@ -412,17 +412,11 @@ createPdfDocument = () => {
                     this.createIvoicePdf(addressData, lineData)
                 }
             })
-            // if(result.data.Items.length>0){
-            //     this.createIvoicePdf(result.data.Items[0]);
-            // }
         }
-        
     });
-    
 }
 
 showSetLanguage = (invoiceData) =>{
-
     this.setState({LanguagemodalShow: true, pdfLang: invoiceData.language === "NL" ? "Dutch" : "English", invoicePdfId: invoiceData.Id})
     localStorage.setItem('nevema_lang_PDF', invoiceData.language === "NL" ? "nl_BE" : "en_US");
 }
@@ -546,15 +540,6 @@ render () {
                             viewDetailFlag={true}
                         />
                     ): null}
-                    {/* <Salesdetailfrom
-                        show={this.state.modalShow}
-                        onHide={() => this.setState({modalShow: false})}
-                        onSetDetailFlag={()=>this.setState({detailFlag: false})}
-                        detailflag={this.state.detailFlag}
-                        orderid={this.state.orderId}
-                        customercode={this.state.customerCode}
-                        suppliercode={this.state.supplierCode}
-                    /> */}
                     {LanguagemodalShow && (
                         <Setlanguageform
                             show={LanguagemodalShow}

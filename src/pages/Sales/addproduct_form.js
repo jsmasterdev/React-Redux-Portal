@@ -32,7 +32,6 @@ class Addproduct extends Component {
             viewFieldFlag: false,
             purchaseAmount: 0,
             salesAmount: 0,
-            // reportingDate: new Date(),
             productQuantity: 0,
             salesQuantity: 0,
             purchaseQuantity: 0,

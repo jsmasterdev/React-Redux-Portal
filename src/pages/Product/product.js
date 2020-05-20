@@ -58,19 +58,20 @@ class Product extends Component {
           ],
           filterData: []
         };
-      }
+    }
+
     componentDidMount() {
       this._isMounted = true;
       this.getProductData();
       this.getSupplierList();
       this.getProducttype();
       this.getCustomer();
-      // this.getSalesunit();
       this.getProductGroup();
       this.getUnitData();
       this.getUserData();
       this.setFilterData();
     }
+
     getUserData = () => {
       var headers = SessionManager.shared().getAuthorizationHeader();
         Axios.get(API.GetUserData, headers)
@@ -90,6 +91,7 @@ class Product extends Component {
           this.setState({approve_user:optionarray})
         });
     }
+
     getProductData = (data) =>{
       this.setState({loading:true})
       var headers = SessionManager.shared().getAuthorizationHeader();
@@ -221,7 +223,7 @@ class Product extends Component {
           {"label": trls('Copy_Product'), "value": "copyproduct", "type": 'text'}
       ]
       this.setState({filterData: filterData});
-  }
+    }
 
     filterOptionData = (filterOption) =>{
       let dataA = []

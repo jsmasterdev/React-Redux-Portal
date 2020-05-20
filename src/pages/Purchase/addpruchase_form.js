@@ -41,7 +41,6 @@ class Addpurchase extends Component {
     
     componentDidMount() {
         this.getProductList();
-        // this.getVatcodeList();
     }
 
     handleSubmit = (event) => {
@@ -106,6 +105,7 @@ class Addpurchase extends Component {
             });
         }
     }
+
     getProductList = () =>{
         this._isMounted = true;
         var headers = SessionManager.shared().getAuthorizationHeader();
@@ -388,7 +388,6 @@ class Addpurchase extends Component {
                                                 ):
                                                     null
                                                 }
-                                                
                                             </td>
                                         }
                                         {!this.props.transport&&(<td style={{verticalAlign: 'top'}}>{data.unit}</td>)}

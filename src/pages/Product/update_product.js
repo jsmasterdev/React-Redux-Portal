@@ -172,20 +172,6 @@ class Updateproductform extends Component {
         return supplierSelect
       }
   
-      // setSupplier = () => {
-      //   let supplierSelect = [];
-      //   let supplierData = this.props.supplier;
-      //   if(this.props.supplier){
-      //       supplierData.map((supplier, index)=>{
-      //           if(supplier.value===this.props.copyproduct.Supplier){
-      //               supplierSelect = { "label": supplier.value, "value": supplier.key }
-      //           }
-      //           return supplierData;
-      //       });
-      //   }
-      //   return supplierSelect
-      // }
-  
       setCustomer = () => {
         let customerSelect = [];
         let customerData = this.state.customer;

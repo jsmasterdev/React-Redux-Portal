@@ -115,14 +115,6 @@ class Updateorderline extends Component {
                             <label className="placeholder-label">{trls('Product')}</label>
                         </Col>
                     </Form.Group>
-                    {/* <Form.Group as={Row} controlId="formPlaintextPassword">
-                        <Form.Label column sm="3">
-                            {trls("Quantity")}  
-                        </Form.Label>
-                        <Col sm="9" className="product-text"> 
-                            <Form.Control type="text" name="quantity" defaultValue={updateData.quantity} readOnly placeholder={trls("Purchase_Price")} />
-                        </Col>
-                    </Form.Group> */}
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text"> 
                             <Form.Control type="text" name="salesquantity" defaultValue={updateData.salesquantity} readOnly  placeholder={trls("Purchase_Price")} />
@@ -137,13 +129,13 @@ class Updateorderline extends Component {
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text"> 
-                            <Form.Control type="text" name="purchaseprice" defaultValue={updateData.purchaseprice} readOnly placeholder={trls("Purchase_Price")} />
+                            <Form.Control type="text" name="purchaseprice" defaultValue={Common.formatMoney(updateData.purchaseprice)} readOnly placeholder={trls("Purchase_Price")} />
                             <label className="placeholder-label">{trls('Purchase_Price')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="salesprice" defaultValue={updateData.SalesPrice} readOnly placeholder={trls("Sales_Price")} />
+                            <Form.Control type="text" name="salesprice" defaultValue={Common.formatMoney(updateData.SalesPrice)} readOnly placeholder={trls("Sales_Price")} />
                             <label className="placeholder-label">{trls('Sales_Price')}</label>
                         </Col>
                     </Form.Group>
@@ -161,13 +153,13 @@ class Updateorderline extends Component {
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="purhcaseamount" defaultValue={updateData.purchaseamount} readOnly placeholder={trls("Purchase_Amount")} />
+                            <Form.Control type="text" name="purhcaseamount" defaultValue={Common.formatMoney(updateData.purchaseamount)} readOnly placeholder={trls("Purchase_Amount")} />
                             <label className="placeholder-label">{trls('Purchase_Amount')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="salesamount" defaultValue={updateData.SalesAmount} readOnly placeholder={trls("Sales_Amount")} />
+                            <Form.Control type="text" name="salesamount" defaultValue={Common.formatMoney(updateData.SalesAmount)} readOnly placeholder={trls("Sales_Amount")} />
                             <label className="placeholder-label">{trls('Sales_Amount')}</label>
                         </Col>
                     </Form.Group>

@@ -6,7 +6,6 @@ import SessionManager from '../../components/session_manage';
 import API from '../../components/api'
 import Axios from 'axios';
 import { BallBeat } from 'react-pure-loaders';
-// import { getUserToken } from '../../components/auth';
 import { trls } from '../../components/translate';
 import 'datatables.net';
 import Filtercomponent from '../../components/filtercomponent';
@@ -260,5 +259,4 @@ class Demurragemanage extends Component {
         )
         };
   }
-    
   export default connect(mapStateToProps, mapDispatchToProps)(Demurragemanage);

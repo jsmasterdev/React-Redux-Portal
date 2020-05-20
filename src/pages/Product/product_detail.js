@@ -19,6 +19,7 @@ const mapStateToProps = state => ({ ...state.auth });
 const mapDispatchToProps = dispatch => ({
 
 });
+
 class Productdtail extends Component {
     constructor(props) {
         super(props);
