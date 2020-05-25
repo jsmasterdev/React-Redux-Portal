@@ -95,7 +95,7 @@ getQualityData = (data) => {
     Axios.get(API.GetQualityControl, header)
     .then(result => {
         let optionarray = [];
-        if(!data){
+        if(!data || data.length===0){
             if(result.data.Items){
                 result.data.Items.map((value, index) => {
                     if(this.state.showMode===1){

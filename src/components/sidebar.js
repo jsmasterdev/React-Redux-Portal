@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
 
 });
+
 class Sidebar extends Component {
     constructor(props){
         super(props);
