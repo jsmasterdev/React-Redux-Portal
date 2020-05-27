@@ -63,6 +63,12 @@ export const formatQuantity = (num) => {
     }
 };
 
+export const formatMoneyAmount = (num) => {
+    let moneyArray = num.split('€');
+    let moneyAmount = parseFloat(moneyArray[1]);
+    return moneyAmount;
+};
+
 export const formatPercent = (num) => {
     if(num){
         var value = num.toFixed(2);
