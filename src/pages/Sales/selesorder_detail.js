@@ -204,6 +204,7 @@ class Salesorderdtail extends Component {
         let salesItems = this.state.salesItems;
         let transporter = this.state.salesTransport;
         const { salesOrderDocList, lodingFlag, purchaseFlag, salesDetailFlag } = this.state;
+        console.log('2222', detailData);
         return (
             <div className="slide-form__controls open slide-product__detail">
                 <div style={{marginBottom:30, padding:"0 20px"}}>
