@@ -293,7 +293,9 @@ class Salesform extends Component {
         this.state.supplier.map((supplier, index)=>{
             if(supplier.key===value){
                 if(supplier.demurrage){
-                    this.setState({arrivaleFlag: true})
+                    this.setState({arrivaleFlag: true});
+                }else{
+                    this.setState({arrivaleFlag: false});
                 }
             }
             return supplier;

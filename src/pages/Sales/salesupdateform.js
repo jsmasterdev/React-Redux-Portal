@@ -284,9 +284,11 @@ class Salesupdateform extends Component {
 
     render(){
         let fileData = this.state.files;
+        let demurrageFlag = false;
         let customer = [];
         let supplier = [];
         let rederijList = [];
+        const { salesOrder } = this.props;
         if(this.props.customerData){
             customer = this.props.customerData.map( s => ({value:s.key,label:s.value}));
         }
@@ -296,7 +298,19 @@ class Salesupdateform extends Component {
         if(this.state.rederijList){
             rederijList = this.state.rederijList.map( s => ({value:s.key,label:s.value}));
         }
-        const { salesOrder } = this.props;
+        this.state.supplier.map((supplier, index)=>{
+            if(supplier.value===salesOrder.Supplier){
+                if(supplier.demurrage){
+                    demurrageFlag = true;
+                }else{
+                    demurrageFlag = false;
+                }
+            }
+            return supplier;
+        });
+        
+        console.log('444', this.state.supplier);
+        console.log('11111', salesOrder);
         const { val1, pageLodingFlag } = this.state;
         let referenceCustomerFlag = true;
         if(!val1){
@@ -383,7 +397,7 @@ class Salesupdateform extends Component {
                             <label className="placeholder-label">{trls('Reference_customer')}</label>
                         </Col>
                     </Form.Group>
-                    {!this.state.arriFlag && this.props.arrivaldate && this.props.salesOrder && (
+                    {!this.state.arriFlag && demurrageFlag && this.props.salesOrder && (
                         <Form.Group as={Row} className="product-text" controlId="formPlaintextPassword">
                             <Col>
                                 <Select
@@ -439,7 +453,7 @@ class Salesupdateform extends Component {
                             </Col>
                         </Form.Group>
                     )}
-                    {!this.state.arriFlag && this.props.arrivaldate && this.props.salesOrder && (
+                    {!this.state.arriFlag && demurrageFlag && this.props.salesOrder && (
                         <Form.Group as={Row} className="product-text" controlId="formPlaintextPassword">
                             <Col>
                                 <Form.Control type="text" name="uithaalreferentie" required defaultValue={salesOrder.Uithaalreferentie ? salesOrder.Uithaalreferentie : ''} placeholder={trls('Reference')} />
@@ -456,12 +470,12 @@ class Salesupdateform extends Component {
                             <label className="placeholder-label">{trls('Loading_date')}</label>
                         </Col>
                     </Form.Group>
-                    {!this.state.arriFlag && this.props.arrivaldate && this.props.salesOrder?(
+                    {!this.state.arriFlag && demurrageFlag && this.props.salesOrder?(
                         <Form.Group as={Row} controlId="formPlaintextPassword">
                             <Col className="product-text">
                                 { this.state.arrivalDateFlag || !this.props.arrivaldate ? (
-                                    <DatePicker name="arrivaldate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={this.state.arrivalDate ? this.state.arrivalDate : new Date()} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
-                                ) : <DatePicker name="arrivaldate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={this.props.salesOrder.arrivaldate ? new Date(this.props.salesOrder.arrivaldate) : ''} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
+                                    <DatePicker name="arrivaldate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={this.state.arrivalDate && this.props.salesOrder.arrivaldate!=="1900-01-01T00:00:00" ? this.state.arrivalDate : ""} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
+                                ) : <DatePicker name="arrivaldate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={this.props.salesOrder.arrivaldate ? new Date(this.props.salesOrder.arrivaldate) : ''} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
                                 } 
                                 <label className="placeholder-label">{trls('Arrival_date')}</label>
                             </Col>
@@ -471,8 +485,8 @@ class Salesupdateform extends Component {
                         <Form.Group as={Row} controlId="formPlaintextPassword">
                             <Col className="product-text">
                                 { this.state.arrivalDateFlag || !this.props.arrivaldate ? (
-                                    <DatePicker name="arrivaldate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={this.state.arrivalDate ? this.state.arrivalDate : new Date()} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
-                                ) : <DatePicker name="arrivaldate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={this.props.salesOrder.arrivaldate ? new Date(this.props.salesOrder.arrivaldate) : ''} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
+                                    <DatePicker name="arrivaldate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={this.state.arrivalDate ? this.state.arrivalDate : new Date()} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
+                                ) : <DatePicker name="arrivaldate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={this.props.salesOrder.arrivaldate ? new Date(this.props.salesOrder.arrivaldate) : ''} onChange = {(value, e)=>this.onChangeDate(value, e, 'arrivaldate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'arrivaldate')}/>}/>
                                 } 
                                 <label className="placeholder-label">{trls('Arrival_date')}</label>
                             </Col>
