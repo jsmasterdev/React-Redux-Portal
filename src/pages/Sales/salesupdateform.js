@@ -464,7 +464,7 @@ class Salesupdateform extends Component {
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
                             { this.state.orderdateflag || !this.props.salesOrder ? (
-                                <DatePicker name="orderdate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={this.state.orderdate ? this.state.orderdate : new Date()} onChange = {(value, e)=>this.onChangeDate(value, e, 'orderdate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'orderdate')}/>}/>
+                                <DatePicker name="orderdate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={this.state.orderdate ? this.state.orderdate : ""} onChange = {(value, e)=>this.onChangeDate(value, e, 'orderdate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'orderdate')}/>}/>
                             ) : <DatePicker name="orderdate" className="myDatePicker" isClearable={true} dateFormat="dd-MM-yyyy" selected={salesOrder.loadingdate!=="1900-01-01T00:00:00" ? new Date(salesOrder.loadingdate) : ''} onChange = {(value, e)=>this.onChangeDate(value, e, 'orderdate')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, 'orderdate')}/>}/>
                             } 
                             <label className="placeholder-label">{trls('Loading_date')}</label>
