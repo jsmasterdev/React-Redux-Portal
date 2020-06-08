@@ -264,7 +264,7 @@ class Addproduct extends Component {
                     {!this.state.viewFieldFlag&&(
                         <Form.Group as={Row} controlId="formPlaintextPassword">
                             <Col className="product-text">
-                                <Form.Control type="number" name="salesquantity" required min="0.00" step="0.001" placeholder={trls("Sales_Quantity")} onChange = {(val)=>this.changeSalesQauntity(val)} />
+                                <Form.Control type="number" name="salesquantity" required  step="0.001" placeholder={trls("Sales_Quantity")} onChange = {(val)=>this.changeSalesQauntity(val)} />
                                 <label className="placeholder-label">{trls('Sales_Quantity')}</label>
                             </Col>
                         </Form.Group>
@@ -274,7 +274,7 @@ class Addproduct extends Component {
                             {this.state.viewFieldFlag&&(
                                 <Form.Group as={Row} controlId="formPlaintextPassword">
                                     <Col className="product-text">
-                                        <Form.Control type="number" name="salesquantity" required min="0.00" step="0.001" defaultValue={this.state.salesQuantity} placeholder={trls("Sales_Quantity")} onChange = {(val)=>this.changeSalesQauntity(val)} />
+                                        <Form.Control type="number" name="salesquantity" required step="0.001" defaultValue={this.state.salesQuantity} placeholder={trls("Sales_Quantity")} onChange = {(val)=>this.changeSalesQauntity(val)} />
                                         <label className="placeholder-label">{trls('Sales_Quantity')}</label>
                                     </Col>
                                 </Form.Group>
@@ -309,9 +309,9 @@ class Addproduct extends Component {
                                 <Form.Group as={Row} controlId="formPlaintextPassword">
                                     <Col className="product-text">
                                         {this.state.purchaseUnit===this.state.salesUnit?(
-                                            <Form.Control type="number" name="purchasequantity" required min="0.00" step="0.001" defaultValue={this.state.salesQuantity}  placeholder={trls("Purchase_Quantity")} onChange = {(val)=>this.changePurchaseQauntity(val)} />
+                                            <Form.Control type="number" name="purchasequantity" required step="0.001" defaultValue={this.state.salesQuantity}  placeholder={trls("Purchase_Quantity")} onChange = {(val)=>this.changePurchaseQauntity(val)} />
                                         ):
-                                            <Form.Control type="number" name="purchasequantity" required min="0.00" step="0.001"  placeholder={trls("Purchase_Quantity")} onChange = {(val)=>this.changePurchaseQauntity(val)} />
+                                            <Form.Control type="number" name="purchasequantity" required step="0.001"  placeholder={trls("Purchase_Quantity")} onChange = {(val)=>this.changePurchaseQauntity(val)} />
                                         }
                                         <label className="placeholder-label">{trls('Purchase_Quantity')}</label>
                                     </Col>
