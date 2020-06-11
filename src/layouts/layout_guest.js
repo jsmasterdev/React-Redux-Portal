@@ -17,6 +17,7 @@ import Dashboard from '../pages/Dashboard/dashboard_manage';
 import { Switch,Router, Route } from 'react-router-dom';
 import history from '../history';
 import { connect } from 'react-redux';
+import * as Auth from '../components/auth';
 window.localStorage.setItem('AWT', true);
 
 const mapStateToProps = state => ({ 
@@ -27,8 +28,14 @@ const mapDispatchToProps = (dispatch) => ({
   
 });
 class Layout extends Component {
-  
+  constructor(props){
+    super(props);
+    this.state = {
+        userInfo: Auth.getUserInfo()
+    }
+  }
     render () {
+      const { userInfo } = this.state;
       return (
           <Row style={{height:"100%", display: "flex"}}>
             <Sidebar/>
@@ -37,7 +44,9 @@ class Layout extends Component {
                 <Router history={history}>
                   <Switch>
                     <Route path="/dashboard" component={Dashboard}/>
-                    <Route path="/user" component={User}/>
+                    {userInfo.roles!=="Orderverwerker" && (
+                      <Route path="/user" component={User}/>
+                    )}
                     <Route path="/product" component={Product}/>
                     <Route path="/product-detail" component={Productdetail}/>
                     <Route path="/sales-order" component={Salesorder} />

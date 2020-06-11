@@ -14,6 +14,7 @@ import Purchaseorderdetail from './purchaseorder_detail';
 import Filtercomponent from '../../components/filtercomponent';
 import Contextmenu from '../../components/contextmenu';
 import SweetAlert from 'sweetalert';
+import * as Auth from '../../components/auth';
 
 const mapStateToProps = state => ({
      ...state.auth,
@@ -46,7 +47,8 @@ class Purchaseorder extends Component {
                 {"label": 'Action', "value": "Action", "type": 'text', "show": true},
             ],
             packingFilterNum: '',
-            obj: this
+            obj: this,
+            userInfo: Auth.getUserInfo()
         };
     }
     componentDidMount() {
@@ -179,7 +181,7 @@ class Purchaseorder extends Component {
 
     render () {
         let salesData = this.state.purhaseorders;
-        const {filterColunm} = this.state;
+        const { filterColunm, userInfo } = this.state;
         return (
             <div className="order_div">
                 <div className="content__header content__header--with-line">
@@ -260,15 +262,17 @@ class Purchaseorder extends Component {
                                                 </Row>
                                             }
                                         </td>
-                                        <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>
-                                            <Row style={{width: 80}}>
-                                                {!data.exactBooking ? (
-                                                    <Button variant="light" onClick={()=>this.deletePurchaseOrder(data.id)} className="action-button"><i className="fas fa-trash-alt add-icon"></i>{trls('Delete')}</Button>
-                                                ):
-                                                    <Button variant="light" onClick={()=>this.deletePurchaseOrder(data.id)} disabled className="action-button"><i className="fas fa-trash-alt add-icon"></i>{trls('Delete')}</Button>
-                                                }
-                                            </Row>
-                                        </td>
+                                        {userInfo.roles==="Orderverwerker" ? (
+                                            <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>
+                                                <Row style={{width: 80}}>
+                                                    {!data.exactBooking ? (
+                                                        <Button variant="light" onClick={()=>this.deletePurchaseOrder(data.id)} className="action-button"><i className="fas fa-trash-alt add-icon"></i>{trls('Delete')}</Button>
+                                                    ):
+                                                        <Button variant="light" onClick={()=>this.deletePurchaseOrder(data.id)} disabled className="action-button"><i className="fas fa-trash-alt add-icon"></i>{trls('Delete')}</Button>
+                                                    }
+                                                </Row>
+                                            </td>
+                                        ) : <td></td>}
                                     </tr>
                                 ))
                                 }

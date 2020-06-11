@@ -24,7 +24,7 @@ class Adduserform extends Component {
     constructor(props) {
         super(props);
         this.state = {  
-            roles:[{"value":"Administrator","label":"Administrator"},{"value":"Customer","label":"Customer"}],
+            roles:[],
             selectrolvalue:"Select...",
             selectrollabel:"Select...",
             val1:'',
@@ -38,6 +38,28 @@ class Adduserform extends Component {
     }
     
     componentDidMount() {
+        this.getUserRole();
+    }
+
+    getUserRole = () => {
+        this._isMounted = true;
+        let roleList = [];
+        let roleArray = [];
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.get(API.GetUserRole, headers)
+        .then(result => {
+            if(this._isMounted){
+                result.data.map((role, index)=>{
+                    roleArray.value = role.Name;
+                    roleArray.label = role.Name;
+                    roleList.push(roleArray);
+                    return role;
+                })
+            }
+            this.setState({roles: roleList})
+        })
+        .catch(err => {
+        });
     }
 
     handleSubmit = (event) => {

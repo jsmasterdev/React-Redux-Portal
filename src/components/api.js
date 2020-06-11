@@ -128,5 +128,5 @@ export default {
     DeleteSalesDocument: `${BASEURL}/api/factory/execute/Appmakerz-Test/deleteSalesDocument`,
     DeletePurchaseDocument: `${BASEURL}/api/factory/execute/Appmakerz-Test/deletePurchaseDocument`,
     DeletePurchaseOrder: `${BASEURL}/api/factory/execute/Appmakerz-Test/deletePurchaseOrder`,
+    GetUserRole: `${BASEURL}/api/Roles	`,
   }; 
-  
