@@ -61,9 +61,9 @@ class Taskoverview extends Component {
                 {"label": 'Customer', "value": "customer", "type": 'text', "show": true},
                 {"label": 'Supplier', "value": "supplier", "type": 'text', "show": true},
                 {"label": 'Reference_customer', "value": "referencecustomer", "type": 'text', "show": true},
-                {"label": 'Purchase_Amount', "value": "PurchaseAmount", "type": 'date', "show": true},
-                {"label": 'Sales_Amount', "value": "SalesAmount", "type": 'date', "show": true},
-                {"label": 'Loading_date', "value": "Loadingdate", "type": 'text', "show": true},
+                {"label": 'Purchase_Amount', "value": "PurchaseAmount", "type": 'text', "show": true},
+                {"label": 'Sales_Amount', "value": "SalesAmount", "type": 'text', "show": true},
+                {"label": 'Loading_date', "value": "Loadingdate", "type": 'date', "show": true},
                 {"label": 'Loading_week', "value": "Loadingweek", "type": 'text', "show": true},
                 {"label": 'PackingSlip', "value": "PackingSlip", "type": 'text', "show": true},
                 {"label": 'Container', "value": "Container", "type": 'text', "show": true},
@@ -162,10 +162,10 @@ setFilterData = () => {
         {"label": trls('Supplier'), "value": "supplier", "type": 'text'},
         {"label": trls('Customer'), "value": "customer", "type": 'text'},
         {"label": trls('Reference_customer'), "value": "referencecustomer", "type": 'text'},
-        {"label": trls('Purchase_Amount'), "value": "PurchaseAmount", "type": 'date'},
-	    {"label": trls('Sales_Amount'), "value": "SalesAmount", "type": 'date'},
-        {"label": trls('Loading_date'), "value": "Loadingdate", "type": 'text'},
-	    {"label": trls('Loading_week'), "value": "Loadingweek", "type": 'text'}
+        {"label": trls('Purchase_Amount'), "value": "PurchaseAmount", "type": 'text'},
+	    {"label": trls('Sales_Amount'), "value": "SalesAmount", "type": 'text'},
+        {"label": trls('Loading_date'), "value": "Loadingdate", "type": 'date'},
+	    {"label": trls('Loading_week'), "value": "Loadingweek", "type": 'between'}
     ]
     this.setState({filterData: filterData});
 }

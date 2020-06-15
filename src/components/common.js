@@ -112,14 +112,14 @@ export const filterData = (filterOption, filterData) =>{
     let resutDat = [];
     let orResultData = [];
     filterOption.map((data, index) => {
-        if(data.condition === "where"){
-            if(!data.dateFlag){
+        if(data.condition === "where") {
+            if(data.type!=="date" && data.type!=="between"){
                 if(data.mode==="Contains"){
                     resutDat = filterData.filter(item => String(item[data.filterOption]).toLowerCase().includes(data.value.toLowerCase()));
                 }else{
                     resutDat = filterData.filter(item => String(item[data.filterOption])===data.value);
                 }
-            }else{
+            } else if(data.type==="date") {
                 resutDat = filterData.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     let startDate = new Date(data.startDate);
@@ -129,15 +129,20 @@ export const filterData = (filterOption, filterData) =>{
                     endDate = new Date(endDate.getFullYear()+'-'+parseInt(endDate.getMonth()+1)+'-'+endDate.getDate());
                     return filterDate>=startDate && filterDate<=endDate;
                 })
+            }else {
+                resutDat = filterData.filter(function(item, key) {
+                    let filterDate = new Date(item[data.filterOption]);
+                    return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
+                })
             }
         }else if(data.condition === "And"){
-            if(!data.dateFlag){
+            if(data.type!=="date" && data.type!=="between"){
                 if(data.mode==="Contains"){
                     resutDat = resutDat.filter(item => String(item[data.filterOption]).toLowerCase().includes(data.value.toLowerCase()));
                 }else{
                     resutDat = resutDat.filter(item => String(item[data.filterOption])===data.value);
                 }
-            }else{
+            } else if(data.type==="date") {
                 resutDat = filterData.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     let startDate = new Date(data.startDate);
@@ -147,15 +152,20 @@ export const filterData = (filterOption, filterData) =>{
                     endDate = new Date(endDate.getFullYear()+'-'+parseInt(endDate.getMonth()+1)+'-'+endDate.getDate());
                     return filterDate>=startDate && filterDate<=endDate;
                 })
+            } else {
+                resutDat = filterData.filter(function(item, key) {
+                    let filterDate = new Date(item[data.filterOption]);
+                    return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
+                })
             }
         }else{
-            if(!data.dateFlag){
+            if(data.type!=="date" && data.type!=="between"){
                 if(data.mode==="Contains"){
                     orResultData = filterData.filter(item => String(item[data.filterOption]).toLowerCase().includes(data.value.toLowerCase()));
                 }else{
                     orResultData = filterData.filter(item => String(item[data.filterOption])===data.value);
                 }
-            }else{
+            } else if(data.type==="date") {
                 orResultData = filterData.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     let startDate = new Date(data.startDate);
@@ -164,6 +174,11 @@ export const filterData = (filterOption, filterData) =>{
                     startDate = new Date(startDate.getFullYear()+'-'+parseInt(startDate.getMonth()+1)+'-'+startDate.getDate());
                     endDate = new Date(endDate.getFullYear()+'-'+parseInt(endDate.getMonth()+1)+'-'+endDate.getDate());
                     return filterDate>=startDate && filterDate<=endDate;
+                })
+            } else {
+                orResultData = filterData.filter(function(item, key) {
+                    let filterDate = new Date(item[data.filterOption]);
+                    return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
                 })
             }
             resutDat = resutDat.concat(orResultData) 

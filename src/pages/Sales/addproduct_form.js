@@ -95,7 +95,8 @@ class Addproduct extends Component {
                 transportData.packingslip=data.packingslip;
                 transportData.container=data.container;
                 transportData.shippingdocumentnumber=data.shippingdocumentnumber;
-                transportData.quantity=data.salesquantity
+                transportData.quantity=data.salesquantity;
+                transportData.salesOrderLineId=this.state.orderLineId;
                 this.props.showTransportModal(transportData);
             });
         }

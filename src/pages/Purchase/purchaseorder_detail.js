@@ -3,13 +3,14 @@ import { Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import SessionManager from '../../components/session_manage';
 import Axios from 'axios';
-import API from '../../components/api'
+import API from '../../components/api';
 import { trls } from '../../components/translate';
-import Updatepurchaseform  from './updatepurchase_form'
-import Addpurchaseform  from './addpruchase_form'
-import * as Common from '../../components/common'
+import Updatepurchaseform  from './updatepurchase_form';
+import Addpurchaseform  from './addpruchase_form';
+import * as Common from '../../components/common';
 import FlashMassage from 'react-flash-message';
-import Addmanuallytranspor from './transportmanualform'
+import Addmanuallytranspor from './transportmanualform';
+import Addtextform from './addtext_form';
 import Sweetalert from 'sweetalert';
 
 const mapStateToProps = state => ({ 
@@ -37,7 +38,10 @@ class Purchaseorderdtail extends Component {
             updateManualData: [],
             defaultVatCode: '',
             vatCodeList: [], 
-            purchaseOrderDocList: []
+            purchaseOrderDocList: [],
+            showTextModal: false,
+            purchaseTextLines: [],
+            updatePurchaseText: []
         }
     }
 
@@ -45,7 +49,14 @@ class Purchaseorderdtail extends Component {
         this.getPurchaseOrder();
         this.getPurchaseOrderLines();
         this.getPurchaseTransportManual();
+        this.getPurchaseTextLines();
     }
+
+        
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+    
 
     getPurchaseOrder() {
         var params= {
@@ -158,11 +169,21 @@ class Purchaseorderdtail extends Component {
             }
         });
     }
-    
-    componentWillUnmount() {
-        this._isMounted = false
+
+    getPurchaseTextLines = () => {
+        this._isMounted = true;
+        var params = {
+            purchaseorderheaderid:this.props.newId
+        }
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.post(API.GetTextLines, params, headers)
+        .then(result => {
+            if(this._isMounted) {
+                this.setState({purchaseTextLines: result.data.Items});
+            }
+        });
     }
-    
+
     generatePurchaseInvoiceXmlExact = () => {
         this.setState({sendingFlag: true, exactFlag: false})
         var headers = SessionManager.shared().getAuthorizationHeader();
@@ -270,13 +291,27 @@ class Purchaseorderdtail extends Component {
         })
     }
 
+    deletePurchaseText = (id) => {
+        let params = {
+            id: id
+        }
+        var header = SessionManager.shared().getAuthorizationHeader();
+        Axios.post(API.DeleteTextLine, params, header)
+        .then(result=>{
+            if(result.data.Success){
+                this.getPurchaseTextLines();
+            }
+        })
+    }
+
     render () {
         let detailData = [];
         if(this.state.purchaseOrder){
             detailData = this.state.purchaseOrder;
         }
         let alltotal_Amounnt = this.state.totalAmount+this.state.totalManualAmount;
-        const { purchaseOrderDocList } = this.state;
+        const { purchaseOrderDocList, purchaseTextLines } = this.state;
+        console.log('222', purchaseTextLines);
         return (
             <div className = "slide-form__controls open slide-product__detail">
                 <div style={{marginBottom:30, padding:"0 20px"}}>
@@ -511,6 +546,37 @@ class Purchaseorderdtail extends Component {
                             </table>
                         </div>
                     </div>
+                    <div className="product-price-table">
+                        <div className="purchase-price__div">
+                            <p className="purprice-title"><i className="fas fa-caret-right add-icon" style={{color: "#4697D1"}}></i>{trls("Text lines")}</p>
+                            <Button variant="outline-secondary" style={{marginLeft: "auto"}} onClick={()=>this.setState({showTextModal: true})}><i className="fas fa-plus add-icon"></i>{trls('Add Text')}</Button>
+                        </div>
+                        <div className="table-responsive prurprice-table__div">
+                        <table id="example" className="place-and-orders__table table table--striped prurprice-dataTable" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>{trls('Text lines')}</th>
+                                        <th>{trls('Action')}</th>
+                                    </tr>
+                                </thead>
+                                {purchaseTextLines && (<tbody>
+                                    {
+                                        purchaseTextLines.map((data,i) =>(
+                                        <tr id={data.Id} key={i}>
+                                            <td>{data.description}</td>
+                                            <td style={{width: 250}}>
+                                                <Row style={{justifyContent:"space-around"}}>
+                                                    <Button className="price-action__button" variant="light" onClick={()=>this.deletePurchaseText(data.id)}><i className="far fa-trash-alt add-icon" ></i>{trls('Delete')}</Button>
+                                                    <Button className="price-action__button" variant="light" onClick={()=>this.setState({showTextModal: true, updatePurchaseText: data})}><i className="fas fa-pen statu-item add-icon" ></i>{trls('Edit')}</Button>
+                                                </Row>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    }
+                                </tbody>)}
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div className="purchase-amount" style={{textAlign: 'right', fontWeight: 'bold', padding: 10, marginBottom: 20, marginTop: 10, backgroundColor: '#609C5A'}}>
                     {trls('Total')}  <span >{Common.formatMoney(alltotal_Amounnt)}</span>
@@ -540,6 +606,13 @@ class Purchaseorderdtail extends Component {
                     orderid={this.props.newId}
                     getPurchaseTransportManual={()=>this.getPurchaseTransportManual()}
                     updateData={this.state.updateManualData}
+                />
+                <Addtextform
+                    show={this.state.showTextModal}
+                    onHide={() => this.setState({showTextModal: false, updatePurchaseText: []})}
+                    purchaseid={this.props.newId}
+                    updateData={this.state.updatePurchaseText}
+                    getPurchaseTextLines={()=>this.getPurchaseTextLines()}
                 />
             </div>
         )

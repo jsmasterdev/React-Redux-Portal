@@ -62,6 +62,7 @@ class Addtransporter extends Component {
                 if(transport.checked){
                     params = {
                         orderid: this.props.orderid,
+                        salesorderlineid: this.props.transportdata.salesOrderLineId,
                         transportercode: transport.TransporterCode,
                         pricingtype: transport.pricingtype,
                         price: transport.price,

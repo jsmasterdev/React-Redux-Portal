@@ -128,5 +128,10 @@ export default {
     DeleteSalesDocument: `${BASEURL}/api/factory/execute/Appmakerz-Test/deleteSalesDocument`,
     DeletePurchaseDocument: `${BASEURL}/api/factory/execute/Appmakerz-Test/deletePurchaseDocument`,
     DeletePurchaseOrder: `${BASEURL}/api/factory/execute/Appmakerz-Test/deletePurchaseOrder`,
-    GetUserRole: `${BASEURL}/api/Roles	`,
+    GetUserRole: `${BASEURL}/api/Roles`,
+    PostTextLines: `${BASEURL}/api/factory/execute/Appmakerz-Test/postTextLines`,
+    GetTextLines: `${BASEURL}/api/factory/execute/Appmakerz-Test/getTextLines`,
+    PutTextLine: `${BASEURL}/api/factory/execute/Appmakerz-Test/putTextLine`,
+    DeleteTextLine: `${BASEURL}/api/factory/execute/Appmakerz-Test/deleteTextLine`,
   }; 
+  

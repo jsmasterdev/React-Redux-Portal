@@ -92,6 +92,21 @@ class Filtercomponent extends React.Component {
         }
     }
 
+    changeBetweenValue = (evt, index, mode) => {
+        let arr = this.state.filterOptionData;
+        arr.map((item, key)=>{
+            if(key===index){
+                if(mode==="start"){
+                    item.startValue = evt.target.value;
+                }else{
+                    item.endValue = evt.target.value;
+                }
+            }
+            return item;
+        })
+        this.setState({filterOptionData: arr});
+    }
+
     changeCondition = (val, index) => {
         let arr_condition = this.state.conditions;
         if(val.value==="where"){
@@ -126,9 +141,11 @@ class Filtercomponent extends React.Component {
             if(key===index){
                 if(val.type==="date"){
                     item.value = this.state.selectDate;
-                    item.dateFlag = true;
-                }else{
-                    item.dateFlag = false;
+                    item.type = "date";
+                } else if (val.type==="between") {
+                    item.type = "between";
+                } else {
+                    item.type = "text";
                 }
                 item.filterOption = val.value;
             }
@@ -186,7 +203,7 @@ class Filtercomponent extends React.Component {
                             options={filterData}
                             onChange={(val)=>this.filterChangeData(val, index)}
                         />
-                        {!data.dateFlag && (
+                        {data.type!=="date" && data.type!=="between" && (
                             <Select
                                 name="filter"
                                 className="filter-header__option"
@@ -194,17 +211,24 @@ class Filtercomponent extends React.Component {
                                 onChange={(val)=>this.filterChangeMode(val, index)}
                             />
                         )}
-                        {!data.dateFlag ? (
+                        {data.type!=="date" && data.type!=="between" && (
                             <Form.Control className="filter-header__option" type="text" name="number" placeholder="value" onChange={(evt)=>this.changeValue(evt, index)}/>
-                        ):
+                        )}
+                        {data.type==="date" && (
                             <div className="filter-header__option">
                                 <DatePicker name="startdate" id="startdatetest" className="myDatePicker filter-date__picker" dateFormat="dd-MM-yyyy" selected={this.state.selectDate} onChange = {(value, e)=>this.onChangeDate(value, e, index, 'start')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, index, 'start')}/>}/>
                             </div>
-                        }
-                        {data.dateFlag && (
+                        )}
+                        {data.type==="date" && (
                              <div className="filter-header__option">
                                 <DatePicker name="enddate" id="enddate" className="myDatePicker filter-date__picker" dateFormat="dd-MM-yyyy" selected={this.state.endDate} onChange = {(value, e)=>this.onChangeDate(value, e, index, 'end')} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event, index, 'end')}/>}/>
                             </div>
+                        )}
+                        {data.type==="between" && (
+                            <Form.Control className="filter-header__option" type="text" name="start" placeholder="value" onChange={(evt)=>this.changeBetweenValue(evt, index, "start")}/>
+                        )}
+                        {data.type==="between" && (
+                             <Form.Control className="filter-header__option" type="text" name="end" placeholder="value" onChange={(evt)=>this.changeBetweenValue(evt, index, "end")}/>
                         )}
                         <i className="fas fa-times" style={{ fontSize: 20, cursor: 'pointer', marginTop: 4}} onClick={()=>this.removeFilterOption(index, data.filterOption)}></i>
                     </div>
