@@ -12,6 +12,7 @@ import  Updatetransport  from './update_transport';
 import  Addtransporter  from './addtransporter';
 import * as Common from '../../components/common';
 import Pageloadspiiner from '../../components/page_load_spinner';
+import Addtextform from './addtext_form';
 
 const mapStateToProps = state => ({ 
     ...state,
@@ -40,7 +41,9 @@ class Salesorderdtail extends Component {
             lodingFlag: false,
             detailData: [],
             purchaseFlag: pathArray[2] ? true : false,
-            salesDetailFlag: false
+            salesDetailFlag: false,
+            purchaseTextLines: [],
+            updatePurchaseText: []
         }
       }
     componentDidMount() {
@@ -48,6 +51,7 @@ class Salesorderdtail extends Component {
         this.getSalesOrder();
         this.getSalesItem();
         this.getSalesOrderTransports();
+        this.getPurchaseTextLines();
     }
 
     componentWillUnmount() {
@@ -199,12 +203,38 @@ class Salesorderdtail extends Component {
         })
     }
 
+    getPurchaseTextLines = () => {
+        this._isMounted = true;
+        var params = {
+            salesorderheaderid:this.props.newid
+        }
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.post(API.GetTextLines, params, headers)
+        .then(result => {
+            if(this._isMounted) {
+                this.setState({purchaseTextLines: result.data.Items});
+            }
+        });
+    }
+
+    deletePurchaseText = (id) => {
+        let params = {
+            id: id
+        }
+        var header = SessionManager.shared().getAuthorizationHeader();
+        Axios.post(API.DeleteTextLine, params, header)
+        .then(result=>{
+            if(result.data.Success){
+                this.getPurchaseTextLines();
+            }
+        })
+    }
+
     render () {
         let detailData = this.state.salesorder;
         let salesItems = this.state.salesItems;
         let transporter = this.state.salesTransport;
-        const { salesOrderDocList, lodingFlag, purchaseFlag, salesDetailFlag } = this.state;
-        console.log('2222', detailData);
+        const { salesOrderDocList, lodingFlag, purchaseFlag, salesDetailFlag, purchaseTextLines } = this.state;
         return (
             <div className="slide-form__controls open slide-product__detail">
                 <div style={{marginBottom:30, padding:"0 20px"}}>
@@ -399,6 +429,37 @@ class Salesorderdtail extends Component {
                         </table>
                     </div>
                 </div>
+                <div className="product-price-table">
+                    <div className="purchase-price__div">
+                        <p className="purprice-title"><i className="fas fa-caret-right add-icon" style={{color: "#4697D1"}}></i>{trls("Text lines")}</p>
+                        <Button variant="outline-secondary" style={{marginLeft: "auto"}} onClick={()=>this.setState({showTextModal: true})}><i className="fas fa-plus add-icon"></i>{trls('Add Text')}</Button>
+                    </div>
+                    <div className="table-responsive prurprice-table__div">
+                        <table id="example" className="place-and-orders__table table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>{trls('Text lines')}</th>
+                                    <th>{trls('Action')}</th>
+                                </tr>
+                            </thead>
+                            {purchaseTextLines && (<tbody>
+                                {
+                                    purchaseTextLines.map((data,i) =>(
+                                    <tr id={data.Id} key={i}>
+                                        <td>{data.description}</td>
+                                        <td style={{width: 250}}>
+                                            <Row style={{justifyContent:"space-around"}}>
+                                                <Button className="price-action__button" variant="light" onClick={()=>this.deletePurchaseText(data.id)}><i className="far fa-trash-alt add-icon" ></i>{trls('Delete')}</Button>
+                                                <Button className="price-action__button" variant="light" onClick={()=>this.setState({showTextModal: true, updatePurchaseText: data})}><i className="fas fa-pen statu-item add-icon" ></i>{trls('Edit')}</Button>
+                                            </Row>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                            </tbody>)}
+                        </table>
+                    </div>
+                </div>
             </div>
             <Salesupdateform
                 show={this.state.modalShow}
@@ -442,6 +503,13 @@ class Salesorderdtail extends Component {
                 transportdata={this.state.transportData}
                 orderid={this.props.newid}
                 getSalesOrderLine={()=>this.getSalesOrderTransports()}
+            />
+             <Addtextform
+                show={this.state.showTextModal}
+                onHide={() => this.setState({showTextModal: false, updatePurchaseText: []})}
+                salesId={this.props.newid}
+                updateData={this.state.updatePurchaseText}
+                getPurchaseTextLines={()=>this.getPurchaseTextLines()}
             />
             <Pageloadspiiner loading = {lodingFlag}/>
         </div>

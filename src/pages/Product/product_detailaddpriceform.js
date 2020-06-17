@@ -55,7 +55,6 @@ class Productdtail extends Component {
     }
     
     getProductDetails() {
-        console.log('2222', this.props)
         let params = {
             id: this.props.productid
         }

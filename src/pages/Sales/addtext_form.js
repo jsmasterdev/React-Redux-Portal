@@ -38,11 +38,10 @@ class Addtextform extends Component {
         }
         var headers = SessionManager.shared().getAuthorizationHeader();
         let params = [];
-        console.log('5555', this.props.updateData);
         if(this.props.updateData.length===0) {
             params = {
                 text: data.text,
-                purchaseorderheaderid: this.props.purchaseid
+                salesorderheaderid: this.props.salesId
             }
             Axios.post(API.PostTextLines, params, headers)
             .then(result => { 
@@ -69,7 +68,6 @@ class Addtextform extends Component {
 
     render(){
         const { updateData } = this.props;
-        console.log('2222', updateData);
         return (
             <Modal
                 show={this.props.show}

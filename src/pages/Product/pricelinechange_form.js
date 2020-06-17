@@ -46,7 +46,6 @@ class Purhcaselinkechangeform extends Component {
             }
             return data;
         });
-        console.log('44444', pricelinedataArray)
         this.setState({priceLineDataArray: pricelinedataArray})
     }
 

@@ -50,6 +50,7 @@ class Adduserform extends Component {
         .then(result => {
             if(this._isMounted){
                 result.data.map((role, index)=>{
+                    roleArray = [];
                     roleArray.value = role.Name;
                     roleArray.label = role.Name;
                     roleList.push(roleArray);

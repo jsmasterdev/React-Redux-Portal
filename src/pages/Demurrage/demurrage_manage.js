@@ -107,7 +107,6 @@ class Demurragemanage extends Component {
     filterOptionData = (filterOption) =>{
         let dataA = []
         dataA = Common.filterData(filterOption, this.state.originFilterData);
-        console.log('2222', dataA);
         if(!filterOption.length){
             dataA=null;
         }

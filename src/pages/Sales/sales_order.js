@@ -174,8 +174,12 @@ deleteSalesOrder = (id) => {
                 title: trls('Success'),
                 icon: "success",
                 button: "OK",
-            });
-            this.getsalesData();
+            })
+            .then((value) => {
+                this.getsalesData();
+                return;
+            }); ;
+           
         }
     })
 }
@@ -278,7 +282,7 @@ render () {
                                             </Row>
                                         }
                                     </td>
-                                    {userInfo.roles==="Orderverwerker" ? (
+                                    {userInfo.roles==="Administrator" ? (
                                         <td className={!this.showColumn(filterColunm[13].label) ? "filter-show__hide" : ''}>
                                             <Row style={{justifyContent:"space-around", width: 100}}>
                                                 {!data.exactBooking && (

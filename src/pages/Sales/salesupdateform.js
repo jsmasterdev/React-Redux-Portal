@@ -308,7 +308,6 @@ class Salesupdateform extends Component {
             }
             return supplier;
         });
-        console.log('2222', this.state.arrivalDate);
         const { val1, pageLodingFlag } = this.state;
         let referenceCustomerFlag = true;
         if(!val1){

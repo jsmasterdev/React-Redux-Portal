@@ -262,7 +262,7 @@ class Purchaseorder extends Component {
                                                 </Row>
                                             }
                                         </td>
-                                        {userInfo.roles==="Orderverwerker" ? (
+                                        {userInfo.roles==="Administrator" ? (
                                             <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>
                                                 <Row style={{width: 80}}>
                                                     {!data.exactBooking ? (
