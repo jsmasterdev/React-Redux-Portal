@@ -54,6 +54,7 @@ class Addtransporter extends Component {
     }
 
     postTransport = () => {
+        console.log('221323123', this.props.transportdata)
         let transportArray = this.state.transportSavingData;
         let params = [];
         var headers = SessionManager.shared().getAuthorizationHeader();

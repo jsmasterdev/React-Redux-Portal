@@ -54,6 +54,7 @@ class Addproduct extends Component {
     }
 
     handleSubmit = (event) => {
+        
         event.preventDefault();
         const clientFormData = new FormData(event.target);
         const data = {};
@@ -90,13 +91,13 @@ class Addproduct extends Component {
             }
             Axios.post(API.PutSalesOrderLine, params, headers)
             .then(result => {
-                this.onHide();
                 transportData.productid=this.state.productid;
                 transportData.packingslip=data.packingslip;
                 transportData.container=data.container;
                 transportData.shippingdocumentnumber=data.shippingdocumentnumber;
                 transportData.quantity=data.salesquantity;
                 transportData.salesOrderLineId=this.state.orderLineId;
+                this.onHide();
                 this.props.showTransportModal(transportData);
             });
         }
