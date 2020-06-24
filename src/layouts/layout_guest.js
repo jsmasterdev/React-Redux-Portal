@@ -13,6 +13,7 @@ import Purchaseorderdetail from '../pages/Purchase/purchaseorder_detail';
 import Taskoverview from '../pages/Task/task_overview';
 import Qualityoverview from '../pages/Quality/quality_overview';
 import Demurrage from '../pages/Demurrage/demurrage_manage';
+import Monthend from '../pages/Monthend/monthend_manage';
 import Dashboard from '../pages/Dashboard/dashboard_manage';
 import { Switch,Router, Route } from 'react-router-dom';
 import history from '../history';
@@ -56,6 +57,7 @@ class Layout extends Component {
                     <Route path="/task-overview" component={Taskoverview}/>
                     <Route path="/quality-overview" component={Qualityoverview}/>
                     <Route path="/demurrage" component={Demurrage}/>
+                    <Route path="/month-end" component={Monthend}/>
                   </Switch>
                 </Router>
             </Col>

@@ -227,7 +227,7 @@ class Userregister extends Component {
                 <div className="orders">
                     <Row>
                         <Col sm={6}>
-                            <Button variant="primary" onClick={()=>this.addUser()}><i className="fas fa-plus add-icon"></i>{trls('Add_User')}</Button> 
+                            <Button variant="primary" onClick={()=>this.addUser()}><i className="fas fa-plus add-icon"></i>{trls('Add User')}</Button> 
                         </Col>
                         <Col sm={6} className="has-search">
                             <div style={{display: 'flex', float: 'right'}}>

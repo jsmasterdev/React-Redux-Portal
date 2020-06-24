@@ -1,0 +1,259 @@
+import React, {Component} from 'react'
+import { Form, Row, Button, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import $ from 'jquery';
+import SessionManager from '../../components/session_manage';
+import API from '../../components/api'
+import Axios from 'axios';
+import { BallBeat } from 'react-pure-loaders';
+import { trls } from '../../components/translate';
+import 'datatables.net';
+import Filtercomponent from '../../components/filtercomponent';
+import Contextmenu from '../../components/contextmenu';
+import * as Common  from '../../components/common';
+import Salesorderdetail from '../Sales/selesorder_detail';
+
+const mapStateToProps = state => ({ ...state.auth });
+
+const mapDispatchToProps = dispatch => ({
+    
+});
+class Monthendmanage extends Component {
+    _isMounted = false
+    constructor(props) {
+        super(props);
+        this.state = {  
+            monthEndData: [],
+            filterColunm: [
+                {"label": 'Productcode', "value": "ProductCode", "type": 'text', "show": true},
+                {"label": 'Loading_Date', "value": "Loadingdate", "type": 'date', "show": true},
+                {"label": 'Purchase_Amount', "value": "PurchaseAmount", "text": 'text', "show": true},
+                {"label": 'Purchase_Quantity', "value": "PurchaseQuantity", "type": 'text', "show": true},
+                {"label": 'Sales_Amount', "value": "SalesAmount", "type": 'text', "show": true},
+                {"label": 'Sales_Quantity', "value": "SalesQuantity", "type": 'text', "show": true},
+                {"label": 'Transport Amount', "value": "TransportAmount", "type": 'text', "show": true},
+                {"label": 'Transport Quantity', "value": "TransportQuantity", "type": 'text', "show": true},
+                {"label": 'Purchase Id', "value": "purchaseid", "type": 'text', "show": true},
+                {"label": 'Sales Id', "value": "salesid", "type": 'text', "show": true},
+                {"label": 'Transport Id', "value": "transportid", "type": 'text', "show": true},
+            ],
+            filterData: [],
+            originFilterData: [],
+            slideDetailFlag: false
+        };
+      }
+    componentDidMount() {
+        this._isMounted=true
+        this.getDemurrageData();
+        this.setFilterData();
+    }
+    componentWillUnmount() {
+        this._isMounted = false
+    }
+    getDemurrageData (data) {
+        this._isMounted = true;
+        this.setState({loading:true})
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.get(API.GetMonthEnd, headers)
+        .then(result => {
+            if(this._isMounted){
+                if(!data){
+                    let itemData = result.data.Items;
+                    itemData.sort(function(a, b){return new Date(b.Loadingdate) - new Date(a.Loadingdate)});
+                    this.setState({monthEndData: itemData, originFilterData: result.data.Items});
+                }else{
+                    let itemData = data;
+                    itemData.sort(function(a, b){return new Date(b.Loadingdate) - new Date(a.Loadingdate)});
+                    this.setState({monthEndData: data});
+                }
+                this.setState({loading:false})
+                $('.fitler').on( 'keyup', function () {
+                    table.search( this.value ).draw();
+                } );
+                $('#monthend-table').dataTable().fnDestroy();
+                var table = $('#monthend-table').DataTable(
+                    {
+                        "language": { 
+                            "lengthMenu": trls("Show")+" _MENU_ "+trls("Entries"),
+                            "zeroRecords": "Nothing found - sorry",
+                            "info": trls("Show_page")+" _PAGE_ of _PAGES_",
+                            "infoEmpty": "No records available",
+                            "infoFiltered": "(filtered from _MAX_ total records)",
+                            "search": trls('Search'),
+                            "paginate": {
+                                "previous": trls('Previous'),
+                                "next": trls('Next')
+                        }
+                      },
+                        "dom": 't<"bottom-datatable" lip>',
+                        // "order": [[ 8 ,'dsc']]
+                        "ordering": false
+                    }
+                  );
+            }
+        });
+    }
+
+    // filter module
+    setFilterData = () => {
+        let filterData = [
+            {"label": trls('Productcode'), "value": "ProductCode", "type": 'text'},
+            {"label": trls('Loading_Date'), "value": "Loadingdate", "type": 'date'},
+        ]
+        this.setState({filterData: filterData});
+    }
+
+    filterOptionData = (filterOption) =>{
+        let dataA = []
+        dataA = Common.filterData(filterOption, this.state.originFilterData);
+        if(!filterOption.length){
+            dataA=null;
+        }
+        $('#demurrage_table').dataTable().fnDestroy();
+        this.getDemurrageData(dataA);
+    }
+
+    changeFilter = () => {
+        if(this.state.filterFlag){
+            this.setState({filterFlag: false})
+        }else{
+            this.setState({filterFlag: true})
+        }
+    }
+    // filter module
+    loadSalesDetail = (data)=>{
+        // Common.showSlideForm();
+        this.setState({newId: data.id, slideDetailFlag: true})
+    }
+
+    addSales = () => {
+        this.setState({copyProduct: '', copyFlag: 1, slideFormFlag: true});
+        Common.showSlideForm();
+    }
+
+    removeColumn = (value) => {
+        let filterColunm = this.state.filterColunm;
+        filterColunm = filterColunm.filter(function(item, key) {
+        if(trls(item.label)===value){
+            item.show = false;
+        }
+        return item;
+        })
+        this.setState({filterColunm: filterColunm})
+    }
+
+    showColumn = (value) => {
+        let filterColum = this.state.filterColunm;
+        filterColum = filterColum.filter((item, key)=>item.label===value);
+        return filterColum[0].show;
+    }
+
+    addFilterColumn = (value) => {
+        // let filterColum = this.state.filterColunm;
+        // let filterData = this.state.filterData;
+        // let filterItem = [];
+        // filterColum = filterColum.filter(function(item, key) {
+        //   return item.label === value
+        // })
+        // filterItem = filterData.filter((item, key)=>item.label===value);
+        // if(!filterItem[0]){
+        //   filterData.push(filterColum[0]);
+        // }
+        // this.setState({filterData: filterData})
+    }
+
+    loadSalesDetail = (data)=>{
+        this.setState({newId: data.id, slideDetailFlag: true})
+    }
+
+    render () {
+        const {filterColunm, monthEndData} = this.state;
+        return (
+            <div className="order_div">
+                <div className="content__header content__header--with-line">
+                    <div id="google_translate_element"></div>
+                    <h2 className="title">{trls("Month End")}</h2>
+                </div>
+                <div className="orders">
+                    <Row>
+                        <Col sm={6}>
+                            {/* <Button variant="primary" onClick={()=>this.addProduct()}><i className="fas fa-plus add-icon"></i>{trls("Add_Product")}</Button>    */}
+                        </Col>
+                        <Col sm={6} className="has-search">
+                            <div style={{display: 'flex', float: 'right'}}>
+                                <Button variant="light" onClick={()=>this.changeFilter()}><i className="fas fa-filter add-icon"></i>{trls('Filter')}</Button>   
+                                <div style={{marginLeft: 20}}>
+                                    <span className="fa fa-search form-control-feedback"></span>
+                                    <Form.Control className="form-control fitler" type="text" name="number"placeholder={trls("Quick_search")}/>
+                                </div>
+                            </div>
+                        </Col>
+                        {this.state.filterData.length>0&&(
+                            <Filtercomponent
+                                onHide={()=>this.setState({filterFlag: false})}
+                                filterData={this.state.filterData}
+                                onFilterData={(filterOption)=>this.filterOptionData(filterOption)}
+                                showFlag={this.state.filterFlag}
+                            />
+                        )}
+                    </Row>
+                    <div className="table-responsive">
+                        <table id="monthend-table" className="place-and-orders__table table" width="100%">
+                            <thead>
+                            <tr>
+                                {filterColunm.map((item, key)=>(
+                                    <th className={!item.show ? "filter-show__hide" : ''} key={key}>
+                                        <Contextmenu
+                                            triggerTitle = {trls(item.label) ? trls(item.label) : ''}
+                                            addFilterColumn = {(value)=>this.addFilterColumn(value)}
+                                            removeColumn = {(value)=>this.removeColumn(value)}
+                                        />
+                                    </th>
+                                    )
+                                )}
+                            </tr>
+                            </thead>
+                            {monthEndData && !this.state.loading&&(<tbody>
+                                {
+                                monthEndData.map((data,i) =>(
+                                    <tr id={data.id} key={i}>
+                                        <td className={!this.showColumn(filterColunm[0].label) ? "filter-show__hide" : ''}>{data.ProductCode}</td>
+                                        <td className={!this.showColumn(filterColunm[1].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.Loadingdate)}</td>
+                                        <td className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.PurchaseAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{data.PurchaseQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.SalesAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.TransportAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{data.TransportQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}>{data.purchaseid}</td>
+                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.salesid}</td>
+                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.transportid}</td>
+                                    </tr>
+                                ))
+                                }
+                            </tbody>)}
+                        </table>
+                        { this.state.loading&& (
+                        <div className="col-md-4 offset-md-4 col-xs-12 loading" style={{textAlign:"center"}}>
+                            <BallBeat
+                                color={'#222A42'}
+                                loading={this.state.loading}
+                            />
+                        </div>
+                        )}
+                    </div>
+                </div>
+                {this.state.newId ? (
+                    <Salesorderdetail
+                        newid={this.state.newId}
+                        onHide={() => this.setState({slideDetailFlag: false, newId: ''})}
+                        customercode={this.state.customercode}
+                        suppliercode={this.state.suppliercode}
+                        viewDetailFlag={true}
+                    />
+                ): null}
+            </div>
+        )
+        };
+  }
+  export default connect(mapStateToProps, mapDispatchToProps)(Monthendmanage);

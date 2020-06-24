@@ -133,5 +133,6 @@ export default {
     GetTextLines: `${BASEURL}/api/factory/execute/Appmakerz-Test/getTextLines`,
     PutTextLine: `${BASEURL}/api/factory/execute/Appmakerz-Test/putTextLine`,
     DeleteTextLine: `${BASEURL}/api/factory/execute/Appmakerz-Test/deleteTextLine`,
+    GetMonthEnd: `${BASEURL}/api/factory/execute/Appmakerz-Test/getMonthEnd`,
   }; 
-  
+   

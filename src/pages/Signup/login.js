@@ -53,9 +53,9 @@ class Login extends React.Component {
                           <label className="placeholder-label__login">{trls('Password')}</label>
                         </Col>
                     </Form.Group>
-                    <Form.Group controlId="form">
+                    {/* <Form.Group controlId="form">
                         <Form.Check type="checkbox" label="Remember me" style={{color: '#B9C0CE'}} onChange={(evt)=>this.changeShowPrice(evt)}/>
-                    </Form.Group>
+                    </Form.Group> */}
                     <Button variant="primary" type="submit" style={{width: "100%", height: 42}} onClick={()=>this.setState({modalResumeShow: true})}>{trls('Sign_in')}</Button>
                     <p className="text-xs-center" style={{marginTop: 10}}>
                         <Link to="/forgot-password" className="back-to_signin">

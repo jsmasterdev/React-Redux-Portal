@@ -719,7 +719,7 @@ table.dataTable.no-footer {
 .action-button{
   margin-top: 5px
 }
-.menu__item span{
+.nav-item span{
   font-size: 14px;
   line-height: 17px;
 }
@@ -951,4 +951,22 @@ input[name="search"].form-control::-webkit-input-placeholder {
 .doclist-delete__icon{
   float: right;
   cursor: pointer;
+}
+.sidebar-submenu_span{
+  margin-left: 40px;
+  margin-right: 5px;
+}
+.sidebar-submenu_span i{
+  font-size: 10px;
+}
+.sidebar-submenu-div{
+  cursor: pointer;
+}
+.sidebar-submenu-div[data-toggle].collapsed::after {
+  content: "▾";
+  margin-left: 10px;
+}
+.sidebar-submenu-div[data-toggle]:not(.collapsed):after {
+  content: "▴";
+  margin-left: 10px;
 }

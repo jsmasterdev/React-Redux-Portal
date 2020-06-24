@@ -3,6 +3,8 @@ import { trls } from './translate';
 import  { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Auth from '../components/auth';
+import $ from 'jquery';
+import { isThisSecond } from 'date-fns';
 
 const mapStateToProps = state => ({ 
     ...state.auth,
@@ -15,23 +17,34 @@ class Sidebar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            userInfo: Auth.getUserInfo()
+            userInfo: Auth.getUserInfo(),
+            subFlag: false
         }
     }
 
-    changeItem = () => {
+    componentDidMount() {
+       
+    }
+
+    changeItem = (mode) => {
+        if(mode==="sub"){
+            $(".submenu-collapse ").removeClass("show");
+            // this.setState({subFlag: false});
+        }else{
+            // this.setState({subFlag: true});
+        }
         this.setState({flag:1})
     }
 
     render () {
-        const{ userInfo } = this.state;
+        const{ userInfo, subFlag } = this.state;
         return (
             <div className = "side-bar__div">
                 <aside className="sidebar">
                     <a href="/" className="sidebar__logo"><img src={require('../assets/images/appmakerz.svg')} alt="appzmakerz"></img></a>
                     <nav className="menu">
-                        <ul className="menu__list">
-                            <li id="0" className="menu__item" onClick={this.changeItem}>
+                        <ul className="nav flex-column flex-nowrap overflow-hidden menu__list">
+                            <li id="0" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to="./dashboard" className={window.location.pathname === "/dashboard" ? 'menu__link menu__link--active' : 'menu__link menu__link'}>
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -42,7 +55,7 @@ class Sidebar extends Component {
                                     <span>{trls("Dashboard")}</span>
                                 </Link>
                             </li>
-                            <li id="1" className="menu__item" onClick={this.changeItem}>
+                            <li id="1" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to={'/product'} className={window.location.pathname === "/product" || window.location.pathname === "/product-detail" ? 'menu__link menu__link--active' : 'menu__link menu__link'}>
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -55,7 +68,7 @@ class Sidebar extends Component {
                                 </Link>
                             </li>
                             {userInfo.roles!=="Orderverwerker" && (
-                                <li id="0" className="menu__item" onClick={this.changeItem}>
+                                <li id="2" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                     <Link to={'/user'} className={window.location.pathname === "/user" || window.location.pathname === "/user-detail" ? 'menu__link menu__link--active' : 'menu__link menu__link'}>
                                         <div className="menu__link-div menu__link-div--active"></div>
                                         <span className="menu__link-img-wrap">
@@ -68,7 +81,7 @@ class Sidebar extends Component {
                                     </Link>
                                 </li>
                             )}
-                            <li id="2" className="menu__item" onClick={this.changeItem}>
+                            <li id="3" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to={'/sales-order'} className={window.location.pathname === "/sales-order" || window.location.pathname === "/sales-order-detail" ? 'menu__link menu__link--active' : 'menu__link menu__link'} >
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -79,7 +92,7 @@ class Sidebar extends Component {
                                     <span>{trls("Sales_Order")}</span>
                                 </Link>
                             </li>
-                            <li id="3" className="menu__item" onClick={this.changeItem}>
+                            <li id="4" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to={'/purchase-order'} className={window.location.pathname === "/purchase-order" || window.location.pathname === "/purchase-order-detail" ? 'menu__link menu__link--active' : 'menu__link menu__link'} >
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -90,7 +103,7 @@ class Sidebar extends Component {
                                     <span>{trls("Purchase_Order")}</span>
                                 </Link>
                             </li>
-                            <li id="4" className="menu__item" onClick={this.changeItem}>
+                            <li id="5" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to={'/task-overview'} className={window.location.pathname === "/task-overview" ? 'menu__link menu__link--active' : 'menu__link menu__link'} >
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -106,7 +119,7 @@ class Sidebar extends Component {
                                     <span>{trls("Task")}</span>
                                 </Link>
                             </li>
-                            <li id="4" className="menu__item" onClick={this.changeItem}>
+                            <li id="6" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to={'/quality-overview'} className={window.location.pathname === "/quality-overview" ? 'menu__link menu__link--active' : 'menu__link menu__link'} >
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -117,7 +130,7 @@ class Sidebar extends Component {
                                     <span>{trls("Invoicing")}</span>
                                 </Link>
                             </li>
-                            <li id="4" className="menu__item" onClick={this.changeItem}>
+                            <li id="7" className="nav-item" onClick={()=>this.changeItem('sub')}>
                                 <Link to={'/demurrage'} className={window.location.pathname === "/demurrage" ? 'menu__link menu__link--active' : 'menu__link menu__link'} >
                                     <div className="menu__link-div menu__link-div--active"></div>
                                     <span className="menu__link-img-wrap">
@@ -129,6 +142,27 @@ class Sidebar extends Component {
                                     </span>
                                     <span>{trls("Demurrage")}</span>
                                 </Link>
+                            </li>
+                            <li id="8" className="nav-item">
+                                <div className={["/month-end"].indexOf(window.location.pathname)!==-1 || subFlag ? 'sidebar-submenu-div menu__link menu__link--active' : 'sidebar-submenu-div menu__link menu__link'} data-toggle="collapse" data-target="#submenu1" onClick={()=>this.changeItem('')}>
+                                    <div className="menu__link-div menu__link-div--active"></div>
+                                    <span className="menu__link-img-wrap">
+                                        <i className="fas fa-table"></i>
+                                    </span>
+                                    <span>{trls("Reports")}</span>
+                                </div>
+                                <div className={["/month-end"].indexOf(window.location.pathname)!==-1 ? "submenu-collapse collapse show" : "submenu-collapse collapse"} id="submenu1" aria-expanded="false">
+                                    <ul className="flex-column pl-2 nav">
+                                        <li className="nav-item" onClick={()=>this.changeItem('')}>
+                                            <Link to={'/month-end'} className={window.location.pathname === "/month-end" ? 'menu__link menu__link--active' : 'menu__link menu__link'}>
+                                                <span className="menu__link-img-wrap sidebar-submenu_span">
+                                                    <i className="fas fa-circle"></i>
+                                                </span>
+                                                <span>{trls("Month End")}</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </nav>

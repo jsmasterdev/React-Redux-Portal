@@ -123,7 +123,6 @@ class Adduserform extends Component {
     setUserRole = (role) => {
         const { roles } = this.state;
         let setUserRole = roles.filter((item, key)=>item.value===role[0].RoleId);
-        console.log('23123', setUserRole);
         return setUserRole;
     }
     
@@ -138,19 +137,17 @@ class Adduserform extends Component {
         if(this.props.userUpdateData){
             updateData=this.props.userUpdateData;
             roles = updateData.roles;
-            console.log('22222', updateData);
             if(roles){
                 // roledata=roles[0].name;
             }
         }
-        console.log('11111', this.state.roles)
         return (
             <div className = "slide-form__controls open" style={{height: "100%"}}>
                 <div style={{marginBottom:30}}>
                     <i className="fas fa-times slide-close" style={{ fontSize: 20, cursor: 'pointer'}} onClick={()=>this.onHide()}></i>
                 </div>
                 <Form className="container" onSubmit = { this.handleSubmit }>
-                    <Col className="title add-product">{trls('Add_Product')}</Col>
+                    <Col className="title add-product">{this.props.mode==="add" ? trls('Add User') : trls('Edit User')}</Col>
                     {this.state.errorFlag && (
                         <ListErrors errors={this.props.error}/>
                     )}

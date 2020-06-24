@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/.git_prod
+/.git_live
 /.pnp
 .pnp.js
 
