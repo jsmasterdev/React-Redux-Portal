@@ -4,7 +4,6 @@ import  { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Auth from '../components/auth';
 import $ from 'jquery';
-import { isThisSecond } from 'date-fns';
 
 const mapStateToProps = state => ({ 
     ...state.auth,

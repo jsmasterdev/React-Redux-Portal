@@ -12,6 +12,7 @@ import Filtercomponent from '../../components/filtercomponent';
 import Contextmenu from '../../components/contextmenu';
 import * as Common  from '../../components/common';
 import Salesorderdetail from '../Sales/selesorder_detail';
+import Purchaseorderdetail from '../Purchase/purchaseorder_detail';
 
 const mapStateToProps = state => ({ ...state.auth });
 
@@ -25,32 +26,37 @@ class Monthendmanage extends Component {
         this.state = {  
             monthEndData: [],
             filterColunm: [
-                {"label": 'Productcode', "value": "ProductCode", "type": 'text', "show": true},
+                {"label": 'ItemCode', "value": "ProductCode", "type": 'text', "show": true},
                 {"label": 'Loading_Date', "value": "Loadingdate", "type": 'date', "show": true},
-                {"label": 'Purchase_Amount', "value": "PurchaseAmount", "text": 'text', "show": true},
-                {"label": 'Purchase_Quantity', "value": "PurchaseQuantity", "type": 'text', "show": true},
+                {"label": 'Sales ID', "value": "salesid", "type": 'text', "show": true},
+                {"label": 'Sales number', "value": "SalesQuantity", "type": 'text', "show": true},
                 {"label": 'Sales_Amount', "value": "SalesAmount", "type": 'text', "show": true},
-                {"label": 'Sales_Quantity', "value": "SalesQuantity", "type": 'text', "show": true},
+                {"label": 'Purchase ID', "value": "purchaseid", "type": 'text', "show": true},
+                {"label": 'Purchase number', "value": "PurchaseQuantity", "type": 'text', "show": true},
+                {"label": 'Purchase_Amount', "value": "PurchaseAmount", "text": 'text', "show": true},
+                {"label": 'Transport ID', "value": "transportid", "type": 'text', "show": true},
+                {"label": 'Transport number', "value": "TransportQuantity", "type": 'text', "show": true},
                 {"label": 'Transport Amount', "value": "TransportAmount", "type": 'text', "show": true},
-                {"label": 'Transport Quantity', "value": "TransportQuantity", "type": 'text', "show": true},
-                {"label": 'Purchase Id', "value": "purchaseid", "type": 'text', "show": true},
-                {"label": 'Sales Id', "value": "salesid", "type": 'text', "show": true},
-                {"label": 'Transport Id', "value": "transportid", "type": 'text', "show": true},
             ],
             filterData: [],
             originFilterData: [],
-            slideDetailFlag: false
+            slideDetailFlag: false,
+            salesNewId: '',
+            purchaseNewId: ''
         };
-      }
+    }
+
     componentDidMount() {
         this._isMounted=true
-        this.getDemurrageData();
+        this.getMonthEndData();
         this.setFilterData();
     }
+
     componentWillUnmount() {
         this._isMounted = false
     }
-    getDemurrageData (data) {
+
+    getMonthEndData (data) {
         this._isMounted = true;
         this.setState({loading:true})
         var headers = SessionManager.shared().getAuthorizationHeader();
@@ -97,7 +103,7 @@ class Monthendmanage extends Component {
     // filter module
     setFilterData = () => {
         let filterData = [
-            {"label": trls('Productcode'), "value": "ProductCode", "type": 'text'},
+            {"label": trls('ItemCode'), "value": "ProductCode", "type": 'text'},
             {"label": trls('Loading_Date'), "value": "Loadingdate", "type": 'date'},
         ]
         this.setState({filterData: filterData});
@@ -109,8 +115,8 @@ class Monthendmanage extends Component {
         if(!filterOption.length){
             dataA=null;
         }
-        $('#demurrage_table').dataTable().fnDestroy();
-        this.getDemurrageData(dataA);
+        $('#monthend-table').dataTable().fnDestroy();
+        this.getMonthEndData(dataA);
     }
 
     changeFilter = () => {
@@ -162,8 +168,12 @@ class Monthendmanage extends Component {
         // this.setState({filterData: filterData})
     }
 
-    loadSalesDetail = (data)=>{
-        this.setState({newId: data.id, slideDetailFlag: true})
+    loadSalesDetail = (salesId)=>{
+        this.setState({salesNewId: salesId, slideDetailFlag: true});
+    }
+
+    loadPurchaseDetail = (purchaseId) => {
+        this.setState({purchaseNewId: purchaseId, slideDetailFlag: true});
     }
 
     render () {
@@ -219,15 +229,15 @@ class Monthendmanage extends Component {
                                     <tr id={data.id} key={i}>
                                         <td className={!this.showColumn(filterColunm[0].label) ? "filter-show__hide" : ''}>{data.ProductCode}</td>
                                         <td className={!this.showColumn(filterColunm[1].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.Loadingdate)}</td>
-                                        <td className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.PurchaseAmount)}</td>
-                                        <td className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{data.PurchaseQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.SalesAmount)}</td>
-                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.TransportAmount)}</td>
-                                        <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{data.TransportQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}>{data.purchaseid}</td>
-                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.salesid}</td>
-                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.transportid}</td>
+                                        <td className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}><div id={data.id} style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadSalesDetail(data.salesid)}>{data.salesid}</div></td>
+                                        <td className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.SalesAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}><div id={data.id} style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadPurchaseDetail(data.purchaseid)}>{data.purchaseid}</div></td>
+                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.PurchaseAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{data.PurchaseQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}><div id={data.id} style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadPurchaseDetail(data.transportid)}>{data.transportid}</div></td>
+                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.TransportAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[10].label) ? "filter-show__hide" : ''}>{data.TransportQuantity}</td>
                                     </tr>
                                 ))
                                 }
@@ -243,12 +253,20 @@ class Monthendmanage extends Component {
                         )}
                     </div>
                 </div>
-                {this.state.newId ? (
+                {this.state.salesNewId ? (
                     <Salesorderdetail
-                        newid={this.state.newId}
-                        onHide={() => this.setState({slideDetailFlag: false, newId: ''})}
+                        newid={this.state.salesNewId}
+                        onHide={() => this.setState({slideDetailFlag: false, salesNewId: ''})}
                         customercode={this.state.customercode}
                         suppliercode={this.state.suppliercode}
+                        viewDetailFlag={true}
+                    />
+                ): null}
+                {this.state.purchaseNewId ? (
+                    <Purchaseorderdetail
+                        onHide={()=>this.setState({slideDetailFlag: false, purchaseNewId: ''})}
+                        newId={this.state.purchaseNewId}
+                        supplierCode={this.state.supplierCode}
                         viewDetailFlag={true}
                     />
                 ): null}

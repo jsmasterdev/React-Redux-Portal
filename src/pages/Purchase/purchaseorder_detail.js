@@ -43,6 +43,7 @@ class Purchaseorderdtail extends Component {
     }
 
     componentDidMount() {
+        Common.showSlideForm();
         this.getPurchaseOrder();
         this.getPurchaseOrderLines();
         this.getPurchaseTransportManual();
@@ -246,7 +247,9 @@ class Purchaseorderdtail extends Component {
     }
 
     onHide = () => {
-        this.props.onGetgetPurchaseOrders();
+        if(!this.props.viewDetailFlag){
+            this.props.onGetgetPurchaseOrders();
+        }
         this.props.onHide();
         Common.hideSlideForm(); 
     }
@@ -299,7 +302,7 @@ class Purchaseorderdtail extends Component {
                     <i className="fas fa-times slide-close" style={{ fontSize: 20, cursor: 'pointer'}} onClick={()=>this.onHide()}></i>
                 </div>
                 <div className="content__header content__header--with-line product-detail__data--detail">
-                    <h2 className="title">{trls("Purchase_Order_Details")}</h2>
+                    <h2 className="title">{!this.state.purchaseOrder.istransport ? trls("Purchase Order")+" #"+this.props.newId : trls('Transport Order')+" #"+this.props.newId}</h2>
                     <Button variant="primary" onClick={()=>this.generatePurchaseInvoiceXmlExact()} style={{marginLeft: 'auto'}}>{trls("Send_to_Exact")}</Button>
                 </div>
                 {this.state.exactFlag&&(
@@ -477,8 +480,7 @@ class Purchaseorderdtail extends Component {
                                                 ))
                                             }
                                             <tr style={{backgroundColor: '#D3EDD0', fontWeight: 'bold'}}>
-                                                <td colSpan={3} style={{textAlign: 'right'}}><span className="purchase-child-total">{trls('Total')}</span><span className="purchase-child-total amount">{Common.formatMoney(this.state.totalAmount)}</span></td>
-                                                <td></td>
+                                                <td colSpan={4} style={{textAlign: 'right'}}><span className="purchase-child-total">{trls('Total')}</span><span className="purchase-child-total amount">{Common.formatMoney(this.state.totalAmount)}</span></td>
                                             </tr>
                                         </tbody>)}
                                     </table>

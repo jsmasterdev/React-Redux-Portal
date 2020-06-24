@@ -52,6 +52,7 @@ class Purchaseorder extends Component {
         };
     }
     componentDidMount() {
+       
         this.getPurchaseOrders();
         this.setFilterData();
         let obj = this.state.obj;
@@ -106,7 +107,6 @@ class Purchaseorder extends Component {
 
     loadPurchaseDetail = (id) =>{
         this.setState({newId: id, supplierCode: '', newSubmit: true, slideDetailFlag: true});
-        Common.showSlideForm();
     }
 
     addPurchase = () => {

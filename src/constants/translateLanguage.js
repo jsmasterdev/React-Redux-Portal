@@ -204,9 +204,15 @@ export const TRANSLATIONS = {
       "Month End": 'Month End',
       "Transport Amount": 'Transport Amount',
       "Transport Quantity": 'Transport Quantity',
-      "Purchase Id": 'Purchase Id',
-      "Sales Id": 'Sales Id',
-      "Transport Id": 'Transport Id'
+      "Purchase ID": 'Purchase ID',
+      "Sales ID": 'Sales ID',
+      "Transport ID": 'Transport ID',
+      "ItemCode": 'ItemCode',
+      "Sales number": 'Sales number',
+      "Purchase number": 'Purchase number',
+      "Transport number": 'Transport number',
+      "Purchase Order": 'Purchase Order',
+      "Transport Order": 'Transport Order'
     },
 
 
@@ -415,8 +421,14 @@ export const TRANSLATIONS = {
       "Month End": 'Maandafsluiting',
       "Transport Amount": 'Transportbedrag',
       "Transport Quantity": 'Transporthoeveelheid',
-      "Purchase Id": 'Aankoop Id',
-      "Sales Id": 'Verkoop Id',
-      "Transport Id": 'Transport Id'
+      "Purchase ID": 'Aankoop ID',
+      "Sales ID": 'Verkoop ID',
+      "Transport ID": 'Transport ID',
+      "ItemCode": 'Artikelcode',
+      "Sales number": 'Verkoopnummer',
+      "Purchase number": 'Aankoopnummer',
+      "Transport number": 'Transportnummer',
+      "Purchase Order": 'Bestelling',
+      "Transport Order": 'Transportopdracht'
     }
   };
