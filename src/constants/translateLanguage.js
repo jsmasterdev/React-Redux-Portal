@@ -212,7 +212,11 @@ export const TRANSLATIONS = {
       "Purchase number": 'Purchase number',
       "Transport number": 'Transport number',
       "Purchase Order": 'Purchase Order',
-      "Transport Order": 'Transport Order'
+      "Transport Order": 'Transport Order',
+      "SalesExactBooking": 'SalesExact Booking',
+      "PurchseExactBooking": 'PurchseExact Booking',
+      "TransportExactBooking": 'TransportExact Booking',
+      "Excel export": 'Excel export'
     },
 
 
@@ -429,6 +433,10 @@ export const TRANSLATIONS = {
       "Purchase number": 'Aankoopnummer',
       "Transport number": 'Transportnummer',
       "Purchase Order": 'Bestelling',
-      "Transport Order": 'Transportopdracht'
+      "Transport Order": 'Transportopdracht',
+      "SalesExactBooking": 'Salesexact boeking',
+      "PurchseExactBooking": 'Purchaseexact boeking',
+      "TransportExactBooking": 'Transportexport boeking',
+      "Excel export": 'Excel export'
     }
   };

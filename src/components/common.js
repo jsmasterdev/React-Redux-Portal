@@ -113,7 +113,7 @@ export const filterData = (filterOption, filterData) =>{
     let orResultData = [];
     filterOption.map((data, index) => {
         if(data.condition === "where") {
-            if(data.type!=="date" && data.type!=="between"){
+            if(data.type!=="date" && data.type!=="between" && data.type!=="num_opinion"){
                 if(data.mode==="Contains"){
                     resutDat = filterData.filter(item => String(item[data.filterOption]).toLowerCase().includes(data.value.toLowerCase()));
                 }else{
@@ -129,14 +129,23 @@ export const filterData = (filterOption, filterData) =>{
                     endDate = new Date(endDate.getFullYear()+'-'+parseInt(endDate.getMonth()+1)+'-'+endDate.getDate());
                     return filterDate>=startDate && filterDate<=endDate;
                 })
-            }else {
+            } else if(data.type==="between") {
                 resutDat = filterData.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
                 })
+            } else {
+                resutDat = filterData.filter(function(item, key) {
+                    console.log('2323', data.value);
+                    if(data.value){
+                        return Number(item[data.filterOption])!==0;
+                    }else{
+                        return Number(item[data.filterOption])===0;
+                    }
+                })
             }
         }else if(data.condition === "And"){
-            if(data.type!=="date" && data.type!=="between"){
+            if(data.type!=="date" && data.type!=="between" && data.type!=="num_opinion"){
                 if(data.mode==="Contains"){
                     resutDat = resutDat.filter(item => String(item[data.filterOption]).toLowerCase().includes(data.value.toLowerCase()));
                 }else{
@@ -152,14 +161,22 @@ export const filterData = (filterOption, filterData) =>{
                     endDate = new Date(endDate.getFullYear()+'-'+parseInt(endDate.getMonth()+1)+'-'+endDate.getDate());
                     return filterDate>=startDate && filterDate<=endDate;
                 })
-            } else {
+            } else if(data.type==="between") {
                 resutDat = filterData.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
                 })
+            } else {
+                resutDat = filterData.filter(function(item, key) {
+                    if(data.value){
+                        return Number(item[data.filterOption])!==0;
+                    }else{
+                        return Number(item[data.filterOption])===0;
+                    }
+                })
             }
         }else{
-            if(data.type!=="date" && data.type!=="between"){
+            if(data.type!=="date" && data.type!=="between" && data.type!=="num_opinion"){
                 if(data.mode==="Contains"){
                     orResultData = filterData.filter(item => String(item[data.filterOption]).toLowerCase().includes(data.value.toLowerCase()));
                 }else{
@@ -175,10 +192,19 @@ export const filterData = (filterOption, filterData) =>{
                     endDate = new Date(endDate.getFullYear()+'-'+parseInt(endDate.getMonth()+1)+'-'+endDate.getDate());
                     return filterDate>=startDate && filterDate<=endDate;
                 })
-            } else {
+            } else if(data.type==="between") {
                 orResultData = filterData.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
+                })
+            } else {
+                resutDat = filterData.filter(function(item, key) {
+                    if(data.value){
+                        return Number(item[data.filterOption])!==0;
+                    }else{
+                        return Number(item[data.filterOption])===0;
+                    }
+                    
                 })
             }
             resutDat = resutDat.concat(orResultData) 

@@ -12,6 +12,7 @@ class Filtercomponent extends React.Component {
             conditions: [{"value": "And", "label": "And"}, {"value": "Or", "label": "Or"}],
             actions: [{"value": "Contains", "label": "Contains"}, {"value": "Is", "label": "Is"}],
             dateaActions: [{"value": "Between", "label": "Between"}],
+            opinioAction: [{"value": true, "label": "True"}, {"value": false, "label": "False"}],
             filterData: this.props.filterData,
             filterOptionData: [],
             selectDate: new Date(),
@@ -142,10 +143,10 @@ class Filtercomponent extends React.Component {
                 if(val.type==="date"){
                     item.value = this.state.selectDate;
                     item.type = "date";
-                } else if (val.type==="between") {
+                } else if(val.type==="between") {
                     item.type = "between";
-                } else {
-                    item.type = "text";
+                } else if(val.type==="num_opinion") {
+                    item.type = "num_opinion";
                 }
                 item.filterOption = val.value;
             }
@@ -176,13 +177,24 @@ class Filtercomponent extends React.Component {
         this.setState({filterOptionData: arr});
     }
 
+    changeNumOpinionValue = (value, index) => {
+        let arr = this.state.filterOptionData;
+        arr.map((item, key)=>{
+            if(key===index){
+                item.value = value;
+            }
+            return item;
+        })
+        this.setState({filterOptionData: arr});
+    }
+
     onFilterData = () => {
         this.props.onFilterData(this.state.filterOptionData);
         this.props.onHide();
     }
 
     render() {
-        const{filterData, filterOptionData, actions, dateaActions, datePickerFlag}=this.state;
+        const{ filterData, filterOptionData, actions, dateaActions, datePickerFlag, opinioAction }=this.state;
         return (
             <Col sm={4} className={!this.props.showFlag ? "multi-filter__div filter-show__hide" : "multi-filter__div" }>
                 {this.state.filterOptionData.map((data, index) =>(
@@ -211,8 +223,16 @@ class Filtercomponent extends React.Component {
                                 onChange={(val)=>this.filterChangeMode(val, index)}
                             />
                         )}
-                        {data.type!=="date" && data.type!=="between" && (
+                        {data.type!=="date" && data.type!=="between" && data.type!=="num_opinion" && (
                             <Form.Control className="filter-header__option" type="text" name="number" placeholder="value" onChange={(evt)=>this.changeValue(evt, index)}/>
+                        )}
+                        {data.type==="num_opinion" && (
+                            <Select
+                                name="filter-opinion"
+                                className="filter-header__option"
+                                options={opinioAction}
+                                onChange={(val)=>this.changeNumOpinionValue(val.value, index)}
+                            />
                         )}
                         {data.type==="date" && (
                             <div className="filter-header__option">
