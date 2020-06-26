@@ -32,6 +32,7 @@
     "react-dropzone-component": "^3.2.0",
     "react-file-drop": "^0.2.8",
     "react-flash-message": "^1.0.2",
+    "react-html-table-to-excel": "^2.0.0",
     "react-jquery-datatables": "^1.0.0",
     "react-loader-spinner": "^3.1.5",
     "react-modal-resizable-draggable": "^0.1.4",

@@ -13,6 +13,7 @@ import Contextmenu from '../../components/contextmenu';
 import * as Common  from '../../components/common';
 import Salesorderdetail from '../Sales/selesorder_detail';
 import Purchaseorderdetail from '../Purchase/purchaseorder_detail';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const mapStateToProps = state => ({ ...state.auth });
 
@@ -30,11 +31,11 @@ class Monthendmanage extends Component {
                 {"label": 'Loading_Date', "value": "Loadingdate", "type": 'date', "show": true},
                 {"label": 'Sales ID', "value": "salesid", "type": 'text', "show": true},
                 {"label": 'Sales number', "value": "SalesQuantity", "type": 'text', "show": true},
-                {"label": 'Sales_Amount', "value": "SalesAmount", "type": 'text', "show": true},
+                {"label": 'Sales Amount', "value": "SalesAmount", "type": 'text', "show": true},
                 {"label": 'SalesExactBooking', "value": "SalesExactBooking", "type": 'text', "show": true},
                 {"label": 'Purchase ID', "value": "purchaseid", "type": 'text', "show": true},
                 {"label": 'Purchase number', "value": "PurchaseQuantity", "type": 'text', "show": true},
-                {"label": 'Purchase_Amount', "value": "PurchaseAmount", "text": 'text', "show": true},
+                {"label": 'Purchase Amount', "value": "PurchaseAmount", "text": 'text', "show": true},
                 {"label": 'PurchseExactBooking', "value": "PurchseExactBooking", "type": 'text', "show": true},
                 {"label": 'Transport ID', "value": "transportid", "type": 'text', "show": true},
                 {"label": 'Transport number', "value": "TransportQuantity", "type": 'text', "show": true},
@@ -193,7 +194,13 @@ class Monthendmanage extends Component {
                 <div className="orders">
                     <Row>
                         <Col sm={6}>
-                            <Button variant="primary"><i className="far fa-file-excel add-icon"></i>{trls("Excel export")}</Button>   
+                            <ReactHTMLTableToExcel
+                                id="test-table-xls-button"
+                                className="btn btn-primary"
+                                table="monthend-table-xl"
+                                filename="tablexls"
+                                sheet="tablexls"
+                                buttonText={trls("Excel export")}/>
                         </Col>
                         <Col sm={6} className="has-search">
                             <div style={{display: 'flex', float: 'right'}}>
@@ -268,6 +275,75 @@ class Monthendmanage extends Component {
                                             }
                                         </td>
                                         <td className={!this.showColumn(filterColunm[10].label) ? "filter-show__hide" : ''}><div style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadPurchaseDetail(data.transportid)}>{data.transportid}</div></td>
+                                        <td className={!this.showColumn(filterColunm[11].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.TransportAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[12].label) ? "filter-show__hide" : ''}>{data.TransportQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[13].label) ? "filter-show__hide" : ''}>
+                                            {data.TransportExactBooking ? (
+                                                <Row style={{width:100}}>
+                                                    <i className="fas fa-check-circle order-booking__icon-active"></i>
+                                                    <span className="exact-booking__number">{data.SalesExactBooking}</span>
+                                                </Row>
+                                            ):
+                                                <Row>
+                                                    <i className="fas fa-times-circle order-booking__icon-inactive"></i>
+                                                    <span className="exact-booking__number"></span>
+                                                </Row>
+                                            }
+                                        </td>
+                                    </tr>
+                                ))
+                                }
+                            </tbody>)}
+                        </table>
+
+                        <table id="monthend-table-xl" className="place-and-orders__table table" width="100%" style={{display: 'none'}}>
+                            <thead>
+                            <tr>
+                                {filterColunm.map((item, key)=>(
+                                    <th className={!item.show ? "filter-show__hide" : ''} key={key}>{trls(item.label)}</th>
+                                    )
+                                )}
+                            </tr>
+                            </thead>
+                            {monthEndData && !this.state.loading&&(<tbody>
+                                {
+                                monthEndData.map((data,i) =>(
+                                    <tr id={data.id} key={i}>
+                                        <td className={!this.showColumn(filterColunm[0].label) ? "filter-show__hide" : ''}>{data.ProductCode}</td>
+                                        <td className={!this.showColumn(filterColunm[1].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.Loadingdate)}</td>
+                                        <td className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}>{data.salesid}</td>
+                                        <td className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.SalesAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>
+                                            {data.SalesExactBooking ? (
+                                                <Row style={{width:100}}>
+                                                    <i className="fas fa-check-circle order-booking__icon-active"></i>
+                                                    <span className="exact-booking__number">{data.SalesExactBooking}</span>
+                                                </Row>
+                                            ):
+                                                <Row>
+                                                    <i className="fas fa-times-circle order-booking__icon-inactive"></i>
+                                                    <span className="exact-booking__number"></span>
+                                                </Row>
+                                            }
+                                        </td>
+                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}>{data.purchaseid}</td>
+                                        <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.PurchaseAmount)}</td>
+                                        <td className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}>{data.PurchaseQuantity}</td>
+                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>
+                                            {data.PurchseExactBooking ? (
+                                                <Row style={{width:100}}>
+                                                    <i className="fas fa-check-circle order-booking__icon-active"></i>
+                                                    <span className="exact-booking__number">{data.SalesExactBooking}</span>
+                                                </Row>
+                                            ):
+                                                <Row>
+                                                    <i className="fas fa-times-circle order-booking__icon-inactive"></i>
+                                                    <span className="exact-booking__number"></span>
+                                                </Row>
+                                            }
+                                        </td>
+                                        <td className={!this.showColumn(filterColunm[10].label) ? "filter-show__hide" : ''}>{data.transportid}</td>
                                         <td className={!this.showColumn(filterColunm[11].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.TransportAmount)}</td>
                                         <td className={!this.showColumn(filterColunm[12].label) ? "filter-show__hide" : ''}>{data.TransportQuantity}</td>
                                         <td className={!this.showColumn(filterColunm[13].label) ? "filter-show__hide" : ''}>

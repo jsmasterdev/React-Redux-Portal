@@ -216,7 +216,9 @@ export const TRANSLATIONS = {
       "SalesExactBooking": 'SalesExact Booking',
       "PurchseExactBooking": 'PurchseExact Booking',
       "TransportExactBooking": 'TransportExact Booking',
-      "Excel export": 'Excel export'
+      "Excel export": 'Excel export',
+      "Sales Amount": 'Sales Amount',
+      "Purchase Amount": 'Purchase Amount'
     },
 
 
@@ -423,20 +425,22 @@ export const TRANSLATIONS = {
       "Add Text": 'Voeg tekst toe',
       "Reports": 'Rapporten',
       "Month End": 'Maandafsluiting',
-      "Transport Amount": 'Transportbedrag',
+      "Transport Amount": 'Transport Aantal',
       "Transport Quantity": 'Transporthoeveelheid',
-      "Purchase ID": 'Aankoop ID',
+      "Purchase ID": 'Inkoop ID',
       "Sales ID": 'Verkoop ID',
       "Transport ID": 'Transport ID',
       "ItemCode": 'Artikelcode',
-      "Sales number": 'Verkoopnummer',
-      "Purchase number": 'Aankoopnummer',
-      "Transport number": 'Transportnummer',
+      "Sales number": 'Verkoop Bedrag',
+      "Purchase number": 'Inkoop Bedrag',
+      "Transport number": 'Transpor Bedrag',
       "Purchase Order": 'Bestelling',
       "Transport Order": 'Transportopdracht',
-      "SalesExactBooking": 'Salesexact boeking',
-      "PurchseExactBooking": 'Purchaseexact boeking',
-      "TransportExactBooking": 'Transportexport boeking',
-      "Excel export": 'Excel export'
+      "SalesExactBooking": 'Verkoop Exactboeking',
+      "PurchseExactBooking": 'Inkoop Exactboeking',
+      "TransportExactBooking": 'Transport Exactboeking',
+      "Excel export": 'Excel export',
+      "Sales Amount": 'Verkoop Aantal',
+      "Purchase Amount": 'Inkoop Aantal'
     }
   };
