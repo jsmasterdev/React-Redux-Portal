@@ -193,7 +193,7 @@ class Monthendmanage extends Component {
                 <div className="orders">
                     <Row>
                         <Col sm={6}>
-                            <Button variant="primary" onClick={()=>this.addProduct()}><i className="far fa-file-excel add-icon"></i>{trls("Excel export")}</Button>   
+                            <Button variant="primary"><i className="far fa-file-excel add-icon"></i>{trls("Excel export")}</Button>   
                         </Col>
                         <Col sm={6} className="has-search">
                             <div style={{display: 'flex', float: 'right'}}>
@@ -238,15 +238,51 @@ class Monthendmanage extends Component {
                                         <td className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}><div style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadSalesDetail(data.salesid)}>{data.salesid}</div></td>
                                         <td className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.SalesAmount)}</td>
                                         <td className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>{data.SalesExactBooking}</td>
-                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}><div tyle={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadPurchaseDetail(data.purchaseid)}>{data.purchaseid}</div></td>
+                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>
+                                            {data.SalesExactBooking ? (
+                                                <Row style={{width:100}}>
+                                                    <i className="fas fa-check-circle order-booking__icon-active"></i>
+                                                    <span className="exact-booking__number">{data.SalesExactBooking}</span>
+                                                </Row>
+                                            ):
+                                                <Row>
+                                                    <i className="fas fa-times-circle order-booking__icon-inactive"></i>
+                                                    <span className="exact-booking__number"></span>
+                                                </Row>
+                                            }
+                                        </td>
+                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}><div style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadPurchaseDetail(data.purchaseid)}>{data.purchaseid}</div></td>
                                         <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.PurchaseAmount)}</td>
                                         <td className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}>{data.PurchaseQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.PurchseExactBooking}</td>
+                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>
+                                            {data.PurchseExactBooking ? (
+                                                <Row style={{width:100}}>
+                                                    <i className="fas fa-check-circle order-booking__icon-active"></i>
+                                                    <span className="exact-booking__number">{data.SalesExactBooking}</span>
+                                                </Row>
+                                            ):
+                                                <Row>
+                                                    <i className="fas fa-times-circle order-booking__icon-inactive"></i>
+                                                    <span className="exact-booking__number"></span>
+                                                </Row>
+                                            }
+                                        </td>
                                         <td className={!this.showColumn(filterColunm[10].label) ? "filter-show__hide" : ''}><div style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadPurchaseDetail(data.transportid)}>{data.transportid}</div></td>
                                         <td className={!this.showColumn(filterColunm[11].label) ? "filter-show__hide" : ''}>{Common.formatMoney(data.TransportAmount)}</td>
                                         <td className={!this.showColumn(filterColunm[12].label) ? "filter-show__hide" : ''}>{data.TransportQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[13].label) ? "filter-show__hide" : ''}>{data.TransportExactBooking}</td>
+                                        <td className={!this.showColumn(filterColunm[13].label) ? "filter-show__hide" : ''}>
+                                            {data.TransportExactBooking ? (
+                                                <Row style={{width:100}}>
+                                                    <i className="fas fa-check-circle order-booking__icon-active"></i>
+                                                    <span className="exact-booking__number">{data.SalesExactBooking}</span>
+                                                </Row>
+                                            ):
+                                                <Row>
+                                                    <i className="fas fa-times-circle order-booking__icon-inactive"></i>
+                                                    <span className="exact-booking__number"></span>
+                                                </Row>
+                                            }
+                                        </td>
                                     </tr>
                                 ))
                                 }
