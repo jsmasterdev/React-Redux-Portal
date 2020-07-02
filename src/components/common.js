@@ -152,7 +152,7 @@ export const filterData = (filterOption, filterData) =>{
                     resutDat = resutDat.filter(item => String(item[data.filterOption])===data.value);
                 }
             } else if(data.type==="date") {
-                resutDat = filterData.filter(function(item, key) {
+                resutDat = resutDat.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     let startDate = new Date(data.startDate);
                     let endDate = new Date(data.endDate);
@@ -162,12 +162,12 @@ export const filterData = (filterOption, filterData) =>{
                     return filterDate>=startDate && filterDate<=endDate;
                 })
             } else if(data.type==="between") {
-                resutDat = filterData.filter(function(item, key) {
+                resutDat = resutDat.filter(function(item, key) {
                     let filterDate = new Date(item[data.filterOption]);
                     return Number(filterDate)>=Number(data.startValue) && Number(filterDate)<=Number(data.endValue);
                 })
             } else {
-                resutDat = filterData.filter(function(item, key) {
+                resutDat = resutDat.filter(function(item, key) {
                     if(data.value){
                         return Number(item[data.filterOption])!==0;
                     }else{

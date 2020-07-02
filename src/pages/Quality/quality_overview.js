@@ -182,11 +182,12 @@ filterOptionData = (filterOption) =>{
 }
 
 changeFilter = () => {
-    if(this.state.filterFlag){
-        this.setState({filterFlag: false})
-    }else{
-        this.setState({filterFlag: true})
-    }
+    // if(this.state.filterFlag){
+    //     this.setState({filterFlag: false})
+    // }else{
+    //     this.setState({filterFlag: true})
+    // }
+    this.setState({filterFlag: !this.state.filterFlag})
 }
 // filter module
 
