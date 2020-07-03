@@ -433,7 +433,7 @@ export const TRANSLATIONS = {
       "ItemCode": 'Artikelcode',
       "Sales number": 'Verkoop Bedrag',
       "Purchase number": 'Inkoop Bedrag',
-      "Transport number": 'Transpor Bedrag',
+      "Transport number": 'Transport bedrag',
       "Purchase Order": 'Bestelling',
       "Transport Order": 'Transportopdracht',
       "SalesExactBooking": 'Verkoop Exactboeking',
