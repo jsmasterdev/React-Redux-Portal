@@ -147,6 +147,8 @@ class Filtercomponent extends React.Component {
                     item.type = "between";
                 } else if(val.type==="num_opinion") {
                     item.type = "num_opinion";
+                } else {
+                    item.type = "";
                 }
                 item.filterOption = val.value;
             }

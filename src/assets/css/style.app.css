@@ -964,9 +964,9 @@ input[name="search"].form-control::-webkit-input-placeholder {
 }
 .sidebar-submenu-div[data-toggle].collapsed::after {
   content: "▾";
-  margin-left: 10px;
+  margin-left: auto;
 }
 .sidebar-submenu-div[data-toggle]:not(.collapsed):after {
   content: "▴";
-  margin-left: 10px;
+  margin-left: auto;
 }
