@@ -1,5 +1,5 @@
-// const BASEURL = 'https://app-test.organisatie.freepeat.com';
-const BASEURL = 'https://app1.organisatie.freepeat.com:4434';
+const BASEURL = 'https://app-test.organisatie.freepeat.com';
+// const BASEURL = 'https://app1.organisatie.freepeat.com:4434';
 export default {
     GetToken: `${BASEURL}/token`,
     GetUserData: `${BASEURL}/api/users/GetUsers?excludeActiveUsers=false`,
