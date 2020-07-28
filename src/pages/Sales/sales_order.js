@@ -77,6 +77,7 @@ class Salesorder extends Component {
         var header = SessionManager.shared().getAuthorizationHeader();
         Axios.get(API.GetSalesData, header)
         .then(result => {
+            console.log('result', result)
             this.setState({orderData: result.data.Items, originFilterData: result.data.Items, loading: false}, ()=>{
                 this.setDataTable(null);
             });
@@ -113,8 +114,9 @@ class Salesorder extends Component {
                         }
                         return colunm;
                     })
+                    $('td:eq(1)', row).css('width', '300px');
                     $('td:eq(0)', row).html("<div class='order-table__id' id="+data[0]+">"+data[0]+"</div>")
-                    $('td:eq(13)', row).html(data[13] ? "<div class='row'><i class='fas fa-check-circle order-booking__icon-active'></i><span class='exact-booking__number'>"+data[13]+"</span></div>" : "<div class='row'><i class='fas fa-times-circle order-booking__icon-inactive'></i><span class='exact-booking__number'></span></div>");
+                    $('td:eq(13)', row).html(data[13] ? "<div class='row' style='width: 85px'><i class='fas fa-check-circle order-booking__icon-active'></i><span class='exact-booking__number'>"+data[13]+"</span></div>" : "<div class='row'><i class='fas fa-times-circle order-booking__icon-inactive'></i><span class='exact-booking__number'></span></div>");
                     if(userInfo.roles==="Administrator"){
                         $('td:eq(14)', row).html("<div class='row' style='justify-Content:space-around; width: 100'><button id="+data[0]+" type='button' class='action-button btn btn-light delete-order'><i class='fas fa-trash-alt add-icon' aria-hidden='true'></i>Verwijderen</button></div>")
                     }
@@ -247,7 +249,7 @@ class Salesorder extends Component {
     }
 
     render () {
-        const { filterColunm, userInfo } = this.state;
+        const { filterColunm } = this.state;
         return (
             <div className="order_div">
                 <div className="content__header content__header--with-line">
