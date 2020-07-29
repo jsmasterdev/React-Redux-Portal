@@ -186,6 +186,7 @@ class Salesorder extends Component {
     }
     // filter module
     loadSalesDetail = (orderId)=>{
+        console.log(123, orderId);
         this.setState({newId: orderId, slideDetailFlag: true})
     }
 
@@ -309,7 +310,7 @@ class Salesorder extends Component {
                     <Salesform
                         show={this.state.modalShow}
                         onHide={() => this.setState({slideFormFlag: false})}
-                        onloadSalesDetail={(data) => this.loadSalesDetail(data)}
+                        onloadSalesDetail={(data) => this.loadSalesDetail(data.id)}
                         onLoadingFlag={(value) => this.setState({loadingFlag: value})}
                     />
                 ): null}
