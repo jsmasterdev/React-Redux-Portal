@@ -303,14 +303,14 @@ class Salesform extends Component {
     }
 
     onChangeDate = (date, e, mode) => {
-        if(e.type==="click"){
+        // if(e.type==="click"){
             if(mode==="orderdate"){
                 this.setState({orderdate:date, orderdateflag: true});
             }else{
                 this.setState({arrivalDate: date, arrivalDateFlag: true})
             }
             
-        }
+        // }
     }
 
     handleEnterKeyPress = (e, mode) => {

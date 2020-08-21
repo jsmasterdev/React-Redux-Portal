@@ -1,4 +1,5 @@
 export const getUserToken = () => {
+    console.log("token", window.localStorage.getItem('nevema_token'))
     return(window.localStorage.getItem('nevema_token'))
 };
 

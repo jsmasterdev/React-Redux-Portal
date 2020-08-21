@@ -1,5 +1,6 @@
 export const TRANSLATIONS = {
     en_US: {
+      "Copy_order": 'Copy order',
       "Username": 'Username',
       "Password": 'Password',
       "Forgot_password": 'Forgot password?',
@@ -111,12 +112,12 @@ export const TRANSLATIONS = {
       "Total_Sales": 'Total Sales',
       "DocumentType": 'DocumentType',
       "IsTransport": 'IsTransport',
-      "PackingSlip": 'PackingSlip',
+      "PackingSlip": '(ICA) Packing slip number/Ship name',
       "Container": 'Container',
       "Shipping": 'Shipping',
       "Purchase_Amount": 'Purchase Amount',
       "Sales_Amount": 'Sales Amount',
-      "Packing_slip_number": 'Packing Number',
+      "Packing_slip_number": '(ICA) Packing slip number/Ship name',
       "Container_number": 'Container Number',
       "ShippingDocumentnumber": 'Shipping Number',
       "Add": 'Add',
@@ -221,8 +222,8 @@ export const TRANSLATIONS = {
       "Purchase Amount": 'Purchase Amount'
     },
 
-
     nl_BE: {
+      "Copy_order": 'Kopieer bestelling',
       "Username": 'Gebruikersnaam',
       "Password": 'Wachtwoord',
       "Forgot_password": 'Wachtwoord vergeten?',
@@ -334,12 +335,12 @@ export const TRANSLATIONS = {
       "Total_Sales": 'Totaal verkoop',
       "DocumentType": 'DocumentType',
       "IsTransport": 'Is transport',
-      "PackingSlip": '(ICA) Pakbon nummer',
+      "PackingSlip": '(ICA) Pakbon nummer/Scheepsnaam',
       "Container": 'Container nummer',
       "Shipping": 'Vrachtbrief nummer',
       "Purchase_Amount": 'Inkoop bedrag',
       "Sales_Amount": 'Verkoop bedrag',
-      "Packing_slip_number": '(ICA) Pakbon nummer',
+      "Packing_slip_number": '(ICA) Pakbon nummer/Scheepsnaam',
       "Container_number": 'Container nummer',
       "ShippingDocumentnumber": 'Vrachtbrief nummer',
       "Add": 'Toevoegen',

@@ -57,6 +57,18 @@ class Salesorderdtail extends Component {
     componentWillUnmount() {
         this._isMounted = false
     }
+    copyOrder = () => {
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        let params = {
+            orderid: this.props.newid
+        }
+        Axios.post(API.CopySalesOrder, params, headers)
+        .then(result => {
+            if(result.data.Success){
+                this.onHide();
+            }
+        });
+    }
 
     getSalesOrder() {
         this.setState({salesDetailFlag: false});
@@ -248,7 +260,7 @@ class Salesorderdtail extends Component {
                 </div>
                 <div className="place-and-orders__top">
                     <Row className="product-detail__data-div">
-                        <Col sm={4}>
+                        <Col sm={3}>
                             <div>
                                 <Form.Label>
                                     {trls("Customer")}
@@ -276,7 +288,7 @@ class Salesorderdtail extends Component {
                                 <label className="placeholder-label_purchase purhcase-placeholder">{trls('File')}</label>
                             </Col>
                         </Col>
-                        <Col sm={4}>
+                        <Col sm={3}>
                             <div>
                                 <Form.Label>
                                     {trls("Supplier")}
@@ -294,7 +306,7 @@ class Salesorderdtail extends Component {
                                 </div>
                             )}
                         </Col>
-                        <Col sm={4}>
+                        <Col sm={3}>
                             <div>
                                 <Form.Label>
                                     {trls("Loading_date")}
@@ -303,6 +315,9 @@ class Salesorderdtail extends Component {
                                     <p>{detailData.arrivaldate!=="1900-01-01T00:00:00" ? Common.formatDate(detailData.arrivaldate) : Common.formatDate(detailData.loadingdate)}</p>
                                 )}
                             </div>
+                        </Col>
+                        <Col sm={3}>
+                            <Button variant="light" onClick={() => this.copyOrder()}><i className="fas fa-copy add-icon"></i>{trls('Copy_order')}</Button>
                         </Col>
                     </Row>
                     <div className="product-detail__data-div">

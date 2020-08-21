@@ -58,6 +58,7 @@ class Demurragemanage extends Component {
             if(this._isMounted){
                 if(!data){
                     let itemData = result.data.Items;
+                    console.log("9090909", itemData)
                     itemData.sort(function(a, b){return new Date(a.pickingdate) - new Date(b.pickingdate)});
                     this.setState({demurrageData: itemData, originFilterData: result.data.Items});
                 }else{
@@ -86,7 +87,10 @@ class Demurragemanage extends Component {
                       },
                         "dom": 't<"bottom-datatable" lip>',
                         // "order": [[ 8 ,'dsc']]
-                        "ordering": false
+                        "ordering": false,
+                        "bLengthChange" : false, 
+                        "paging":false,   
+                        "info": false
                     }
                   );
             }
@@ -217,7 +221,7 @@ class Demurragemanage extends Component {
                             {demurrageData && !this.state.loading&&(<tbody>
                                 {
                                 demurrageData.map((data,i) =>(
-                                    <tr id={data.id} key={i}>
+                                    <tr id={data.id} key={i} style={{backgroundColor: data.color}}>
                                         <td className={!this.showColumn(filterColunm[0].label) ? "filter-show__hide" : ''}>
                                             <div id={data.id} style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadSalesDetail(data)}>{data.id}</div>    
                                         </td>

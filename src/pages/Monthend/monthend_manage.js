@@ -185,7 +185,6 @@ class Monthendmanage extends Component {
 
     render () {
         const {filterColunm, monthEndData} = this.state;
-        console.log("monthendData",monthEndData);
         return (
             <div className="order_div">
                 <div className="content__header content__header--with-line">

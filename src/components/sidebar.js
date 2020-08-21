@@ -153,12 +153,12 @@ class Sidebar extends Component {
                                 <div className={["/month-end"].indexOf(window.location.pathname)!==-1 ? "submenu-collapse collapse show" : "submenu-collapse collapse"} id="submenu1" aria-expanded="false">
                                     <ul className="flex-column pl-2 nav">
                                         <li className="nav-item" onClick={()=>this.changeItem('')}>
-                                            <Link to={'/month-end'} className={window.location.pathname === "/month-end" ? 'menu__link menu__link--active' : 'menu__link menu__link'}>
+                                            <a href="http://app1/Reports/Pages/Report.aspx?ItemPath=%2fAppmakerz%2fMaandafsluiting" target="_blank" rel="noopener noreferrer" className={'menu__link menu__link--active'}>
                                                 <span className="menu__link-img-wrap sidebar-submenu_span">
                                                     <i className="fas fa-circle"></i>
                                                 </span>
                                                 <span>{trls("Month End")}</span>
-                                            </Link>
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
