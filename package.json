@@ -41,6 +41,7 @@
     "react-modal-resizable-draggable": "^0.1.4",
     "react-native-base64": "0.0.2",
     "react-numeric-input": "^2.2.3",
+    "react-pdf": "^5.0.0",
     "react-pure-loaders": "^3.0.1",
     "react-redux": "^7.0.3",
     "react-router": "^5.1.2",

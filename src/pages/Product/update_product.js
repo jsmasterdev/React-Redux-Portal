@@ -11,6 +11,7 @@ import Axios from 'axios';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Customernote from '../../components/customer_note';
 import DraggableModalDialog from '../../components/draggablemodal';
+import * as Auth from '../../components/auth';
 
 class Updateproductform extends Component {
     _isMounted = false;
@@ -35,7 +36,8 @@ class Updateproductform extends Component {
               val6:"",
               redirect:false,
               product_id:"",
-              loading:true
+              loading:true,
+              userInfo: Auth.getUserInfo()
           };
         }
       componentWillUnmount() {
@@ -49,7 +51,9 @@ class Updateproductform extends Component {
         // this.getSalesunit();
         this.getProductGroup();
         this.getUnitData();
-        this.getUserData();
+        if(this.state.userInfo.roles==="Administrator"){
+          this.getUserData();
+        }
       }
 
       getUserData = () => {
@@ -130,7 +134,7 @@ class Updateproductform extends Component {
             "productgroup": data.Productgroup,
             "kilogram":data.kilogram,
             "purchaseunit":data.purchase_unit,
-            "approver": data.approver,
+            "approver": this.state.userInfo.roles==="Administrator" ? data.approver : '',
             "id": this.props.productid
           }
           var headers = SessionManager.shared().getAuthorizationHeader();
@@ -423,30 +427,33 @@ class Updateproductform extends Component {
                                   )}
                             </Col>
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formPlaintextPassword">
-                            <Form.Label column sm="3">
-                              {trls("Approver")}
-                            </Form.Label>
-                            <Col sm="9" className="product-text">
-                                <Select
-                                    name="approver"
-                                    placeholder={trls('Select')}
-                                    options={approver}
-                                    onChange={val => this.setState({val5:val})}
-                                    defaultValue={this.setApprover()}
-                                />
-                                {!this.props.disabled && this.props.copyflag!==0 && (
-                                  <input
-                                      onChange={val=>console.log()}
-                                      tabIndex={-1}
-                                      autoComplete="off"
-                                      style={{ opacity: 0, height: 0 }}
-                                      value={this.state.val5}
-                                      required
-                                      />
-                                  )}
-                            </Col>
-                        </Form.Group>
+                        {this.state.userInfo.roles==="Administrator"&&(
+                          <Form.Group as={Row} controlId="formPlaintextPassword">
+                          <Form.Label column sm="3">
+                            {trls("Approver")}
+                          </Form.Label>
+                          <Col sm="9" className="product-text">
+                              <Select
+                                  name="approver"
+                                  placeholder={trls('Select')}
+                                  options={approver}
+                                  onChange={val => this.setState({val5:val})}
+                                  defaultValue={this.setApprover()}
+                              />
+                              {!this.props.disabled && this.props.copyflag!==0 && (
+                                <input
+                                    onChange={val=>console.log()}
+                                    tabIndex={-1}
+                                    autoComplete="off"
+                                    style={{ opacity: 0, height: 0 }}
+                                    value={this.state.val5}
+                                    required
+                                    />
+                                )}
+                          </Col>
+                      </Form.Group>
+                        )}
+                        
                         <Form.Group as={Row} controlId="formPlaintextPassword">
                             <Form.Label column sm="3">
                               {trls("Kilogram")}

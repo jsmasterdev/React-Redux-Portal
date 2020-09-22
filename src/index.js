@@ -10,12 +10,12 @@ import './assets/css/bootstrap.min.css';
 import './assets/css/style.app.css';
 import './assets/css/contextmenu.css';
 import './assets/css/contextcustom.css';
-
+import { pdfjs } from 'react-pdf';
 const store = configureStore()
 window.localStorage.setItem('nevema_lang',  'nl_BE');
 window.localStorage.setItem('nevema_label',  'Nl');
 window.React = React
-
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 ReactDOM.render(
     <Provider store={store}>
       <Router history={history}>

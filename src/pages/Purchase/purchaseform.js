@@ -13,7 +13,7 @@ import * as Auth   from '../../components/auth';
 import FileDrop from 'react-file-drop';
 import * as Common from '../../components/common';
 import Sweetalert from 'sweetalert';
-
+// import { Document, Page } from 'react-pdf';
 const mapStateToProps = state => ({ 
     ...state.auth,
     customerData: state.common.customerData,
@@ -44,7 +44,10 @@ class Purchaseform extends Component {
             files: [],
             checkFlag: false,
             setSupplierCode: '',
-            setDescription: ''
+            setDescription: '',
+            file: null,
+            numPages: 0,
+            pageNumber: 1
         };
     }
 
@@ -136,7 +139,14 @@ class Purchaseform extends Component {
         fileData.push(e.target.files[0]);
         this.setState({files: fileData});
     }
-
+    // onFileChange = (event) => {
+    //     this.setState({
+    //       file: event.target.files[0]
+    //     });
+    //   }
+    // onDocumentLoadSuccess = ({ numPages }) => {
+    //     this.setState({ numPages });
+    //   }
     fileUploadData = (purchaseid) => {
         this._isMounted = true;
         let fileArray = this.state.files
@@ -154,6 +164,7 @@ class Purchaseform extends Component {
                 }
                 Axios.post(API.FileUpload, formData, headers)
                 .then(result => {
+                    console.log("asdf", result)
                     documentParam = {
                         purchaseid: purchaseid,
                         fileid: result.data.Id
@@ -437,16 +448,23 @@ class Purchaseform extends Component {
                                             <div id={i} key={i} style={{cursor: "pointer"}} onClick={()=>this.openUploadFile()}>
                                                 {data.name}
                                             </div>
+                                            
                                         ))
                                     ):
                                         <div style={{cursor: "pointer"}} onClick={()=>this.openUploadFile()}>{trls("Click_or_Drop")}</div> 
                                     }
-                                     <input id="inputFile" name="file" type="file" accept="*.*"  onChange={this.onChange} style={{display: "none"}} />   
+                                    <input id="inputFile" name="file" type="file" accept="*.*"  onChange={this.onChange} style={{display: "none"}} />   
                                 </FileDrop>
+                                {/* <input id="inputFile" name="file" type="file" accept="*.*"  onChange={this.onFileChange} /> */}
                             </div>
                             <label className="placeholder-label">{trls('File')}</label>
                         </Col>
                     </Form.Group>
+                    {/* <Document file={this.state.file} onLoadSuccess={this.onDocumentLoadSuccess} noData={<h4>Please select a file</h4>}>
+                        <Page pageNumber={this.state.pageNumber} />
+                    </Document> */}
+
+            {this.state.file ? <p>Page {this.state.pageNumber} of {this.state.numPages}</p> : null}
                     <Form.Group>
                         <Col>
                             <Button type="submit" style={{width:"100px"}}>{trls('Save')}</Button>

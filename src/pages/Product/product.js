@@ -16,6 +16,7 @@ import Productform from './product_form'
 import Productdetail from './product_detail';
 import Filtercomponent from '../../components/filtercomponent';
 import Contextmenu from '../../components/contextmenu';
+import * as Auth from '../../components/auth';
 
 const mapStateToProps = state => ({ ...state.auth });
 
@@ -56,7 +57,8 @@ class Product extends Component {
               {"label": 'Kilogram', "value": "Kilogram", "type": 'text', "show": true},
               {"label": 'Copy_Product', "value": "copyproduct", "type": 'text', "show": true}
           ],
-          filterData: []
+          filterData: [],
+          userInfo: Auth.getUserInfo()
         };
     }
 
@@ -68,7 +70,9 @@ class Product extends Component {
       this.getCustomer();
       this.getProductGroup();
       this.getUnitData();
-      this.getUserData();
+      if(this.state.userInfo.roles==="Administrator"){
+        this.getUserData();
+      }
       this.setFilterData();
     }
 
@@ -77,6 +81,7 @@ class Product extends Component {
         Axios.get(API.GetUserData, headers)
         .then(result => {
           let userData=result.data;
+          console.log("DDDDDD", userData);
           let optionarray = [];
           if(userData){
               userData.map((data, index) => {

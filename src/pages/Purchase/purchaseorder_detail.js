@@ -296,6 +296,7 @@ class Purchaseorderdtail extends Component {
         }
         let alltotal_Amounnt = this.state.totalAmount+this.state.totalManualAmount;
         const { purchaseOrderDocList } = this.state;
+        console.log("DDDDDD", purchaseOrderDocList)
         return (
             <div className = "slide-form__controls open slide-product__detail">
                 <div style={{marginBottom:30, padding:"0 20px"}}>

@@ -136,7 +136,8 @@ class Addmanuallytransport extends Component {
         this.setState({amount: this.state.editPriceFlag ? this.state.price*value : this.props.updateData.Price*value, quantity: value, editQuantityFlag: true, editFlag: true})
     }
 
-    changePrice = (value) => {
+    changePrice = (val) => {
+        let value = val.replace(',', '.');
         this.setState({amount: this.state.editQuantityFlag ? this.state.quantity*value : this.props.updateData.Quantity*value, price: value, editPriceFlag: true, editFlag: true}) 
     }
 
@@ -214,7 +215,7 @@ class Addmanuallytransport extends Component {
                             {trls("Quantity")}  
                         </Form.Label>
                         <Col sm="9" className="product-text">
-                            <Form.Control type="text" name="quantity" required placeholder={trls("Quantity")} defaultValue={this.props.updateData.Quantity} onChange={(evt)=>this.changeQuantity(evt.target.value)}/>
+                            <Form.Control type="number" name="quantity" required placeholder={trls("Quantity")} defaultValue={this.props.updateData.Quantity} onChange={(evt)=>this.changeQuantity(evt.target.value)}/>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">

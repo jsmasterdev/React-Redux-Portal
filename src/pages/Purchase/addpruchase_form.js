@@ -24,8 +24,8 @@ class Addpurchase extends Component {
     constructor(props) {
         super(props);
         this.state = {  
-            filsterList: [{"value": "1", "label": "Packing slip"}, {"value": "2", "label": "Containernumber"}, {"value": "3", "label": "Shippingdocument "}],
-            nlfilsterList: [{"value": "1", "label": "Pakbon nummer"}, {"value": "2", "label": "Container nummer"}, {"value": "3", "label": "Vrachtbrief nummer"}],
+            filsterList: [{"value": "1", "label": "Packing slip"}, {"value": "2", "label": "Containernumber"}, {"value": "3", "label": "Shippingdocument "}, {"value": "4", "label": "Order number"} ],
+            nlfilsterList: [{"value": "1", "label": "Pakbon nummer"}, {"value": "2", "label": "Container nummer"}, {"value": "3", "label": "Vrachtbrief nummer"}, {"value": "4", "label": "Bestelnummer"}],
             quantity: '',
             filterValue: '',
             productData: [],
@@ -96,6 +96,22 @@ class Addpurchase extends Component {
                 URL = API.GetOrderLinesByShipping;
             }else{
                 URL = API.GetTransportLinesByShipping;
+            }
+            Axios.post(URL, params, headers)
+            .then(result => {
+                if(this._isMounted){
+                    this.setState({searchFlag: false, productData: result.data.Items})
+                }
+            });
+        } else if(data.filter==="4"){
+            params = {
+                supplier: this.props.suppliercode,
+                orderid: data.number
+            }
+            if(!this.props.transport){
+                URL = API.GetOrderLinesByOrder;
+            }else{
+                URL = API.GetTransportLinesByOrder;
             }
             Axios.post(URL, params, headers)
             .then(result => {

@@ -12,7 +12,7 @@ import Axios from 'axios';
 import * as Common from '../../components/common';
 import Customernote from '../../components/customer_note';
 import * as authAction  from '../../actions/authAction';
-
+import * as Auth from '../../components/auth';
 const mapStateToProps = state => ({ ...state.auth });
 
 const mapDispatchToProps = dispatch => ({
@@ -44,7 +44,8 @@ class Productform extends Component {
             product_id:"",
             loading:true,
             description: '',
-            CustomerCode: ''
+            CustomerCode: '',
+            userInfo: Auth.getUserInfo(),
         };
     }
   
@@ -73,7 +74,7 @@ class Productform extends Component {
             "productgroup": data.Productgroup,
             "kilogram":data.kilogram,
             "purchaseunit":data.purchase_unit,
-            "approver": data.approver,
+            "approver": this.state.userInfo.roles==="Administrator" ? data.approver : '',
             "product": data.product
         }
         var headers = SessionManager.shared().getAuthorizationHeader();
@@ -282,7 +283,8 @@ class Productform extends Component {
                             )}
                         </Col>
                     </Form.Group>
-                    <Form.Group className={this.props.copyflag!==1 ? "product-text" : ''} as={Row} controlId="formPlaintextPassword">
+                    {this.state.userInfo.roles==="Administrator"&&(
+                        <Form.Group className={this.props.copyflag!==1 ? "product-text" : ''} as={Row} controlId="formPlaintextPassword">
                         <Col>
                             <Select
                                 name="approver"
@@ -304,6 +306,8 @@ class Productform extends Component {
                             )}
                         </Col>
                     </Form.Group>
+                    )}
+                    
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
                             <Form.Control type="number" name="kilogram" placeholder={trls('Kilogram')} defaultValue={copyProduct.Kilogram} onChange={val=>this.setState({val6:val})}/>
