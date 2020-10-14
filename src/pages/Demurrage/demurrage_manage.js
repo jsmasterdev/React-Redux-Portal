@@ -58,7 +58,6 @@ class Demurragemanage extends Component {
             if(this._isMounted){
                 if(!data){
                     let itemData = result.data.Items;
-                    console.log("9090909", itemData)
                     itemData.sort(function(a, b){return new Date(a.pickingdate) - new Date(b.pickingdate)});
                     this.setState({demurrageData: itemData, originFilterData: result.data.Items});
                 }else{
@@ -221,19 +220,19 @@ class Demurragemanage extends Component {
                             {demurrageData && !this.state.loading&&(<tbody>
                                 {
                                 demurrageData.map((data,i) =>(
-                                    <tr id={data.id} key={i} style={{backgroundColor: data.color}}>
+                                    <tr id={data.id} key={i}>
                                         <td className={!this.showColumn(filterColunm[0].label) ? "filter-show__hide" : ''}>
                                             <div id={data.id} style={{cursor: "pointer", color:'#004388', fontSize:"14px", fontWeight:'bold'}} onClick={()=>this.loadSalesDetail(data)}>{data.id}</div>    
                                         </td>
-                                        <td className={!this.showColumn(filterColunm[1].label) ? "filter-show__hide" : ''}>{data.Customer}</td>
-                                        <td className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}>{data.Rederij}</td>
-                                        <td className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{data.Container}</td>
-                                        <td className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{data.ProductCode}</td>
-                                        <td className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>{data.SalesUnit}</td>
-                                        <td className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
-                                        <td className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.Arrivaldate)}</td>
-                                        <td className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.pickingdate)}</td>
-                                        <td className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.UithaalReferentie}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[1].label) ? "filter-show__hide" : ''}>{data.Customer}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[2].label) ? "filter-show__hide" : ''}>{data.Rederij}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[3].label) ? "filter-show__hide" : ''}>{data.Container}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[4].label) ? "filter-show__hide" : ''}>{data.ProductCode}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[5].label) ? "filter-show__hide" : ''}>{data.SalesUnit}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[6].label) ? "filter-show__hide" : ''}>{data.SalesQuantity}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[7].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.Arrivaldate)}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[8].label) ? "filter-show__hide" : ''}>{Common.formatDate(data.pickingdate)}</td>
+                                        <td style={{color: data.color}} className={!this.showColumn(filterColunm[9].label) ? "filter-show__hide" : ''}>{data.UithaalReferentie}</td>
                                     </tr>
                                 ))
                                 }

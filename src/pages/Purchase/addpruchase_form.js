@@ -25,7 +25,7 @@ class Addpurchase extends Component {
         super(props);
         this.state = {  
             filsterList: [{"value": "1", "label": "Packing slip"}, {"value": "2", "label": "Containernumber"}, {"value": "3", "label": "Shippingdocument "}, {"value": "4", "label": "Order number"} ],
-            nlfilsterList: [{"value": "1", "label": "Pakbon nummer"}, {"value": "2", "label": "Container nummer"}, {"value": "3", "label": "Vrachtbrief nummer"}, {"value": "4", "label": "Bestelnummer"}],
+            nlfilsterList: [{"value": "1", "label": "Pakbon nummer"}, {"value": "2", "label": "Container nummer"}, {"value": "3", "label": "Vrachtbrief nummer"}, {"value": "4", "label": "Bestel no"}],
             quantity: '',
             filterValue: '',
             productData: [],

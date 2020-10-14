@@ -8,6 +8,7 @@ import { trls } from '../../components/translate';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import * as Common from '../../components/common';
+
 import DraggableModalDialog from '../../components/draggablemodal';
 
 const mapStateToProps = state => ({ 
@@ -20,17 +21,30 @@ const mapDispatchToProps = (dispatch) => ({
 
 class Updateorderline extends Component {
     _isMounted = false;
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {  
             reportingDate: new Date(),
-            reportingFlag: false
+            reportingFlag: false,
+            editSalesFlag: false,
+            editPurchaseFlag: false,
+            editSalesQuantityFlag: false,
+            editSalesPriceFlag: false,
+            editPurchaseQuantityFlag: false,
+            editPurchasePriceFlag: false,
+            salesPrice: '',
+            salesQuantity: '',
+            purchasePrice: '',
+            purchaseQuantity: '',
+            salesAmount: '',
+            purchaseAmount: ''
+
         };
     }
     componentWillUnmount() {
         this._isMounted = false;
     }
-    
+
     componentDidMount() {
         // this.getProductList();
     }
@@ -44,18 +58,23 @@ class Updateorderline extends Component {
             data[key] = clientFormData.get(key);
         }
         var headers = SessionManager.shared().getAuthorizationHeader();
+        console.log("asdfasdf", data.salesamount)
         params = {
             orderlineid: this.props.updatedata.id,
             salesquantity: data.salesquantity,
             purchasequantity: data.purchasequantity,
-            purchasePrice: this.props.updatedata.purchaseprice,
-            salesPrice: this.props.updatedata.SalesPrice,
-            purchaseAmount: this.props.updatedata.purchaseamount,
-            salesAmount: this.props.updatedata.SalesAmount,
+            // purchasePrice: this.props.updatedata.purchaseprice,
+            // salesPrice: this.props.updatedata.SalesPrice,
+            // purchaseAmount: this.props.updatedata.purchaseamount,
+            // salesAmount: this.props.updatedata.SalesAmount,
+            purchasePrice: Common.formatMoney(data.purchaseprice),
+            salesPrice: Common.formatMoney(data.salesprice),
+            purchaseamount: data.purchaseamount,
+            salesAmount: data.salesamount,
             packingslip: data.packingslip,
             container: data.container,
             shipping: data.shippingdocumentnumber,
-            reporting: Common.formatDateSecond(data.reporingdate)
+            reporting: Common.formatDateSecond(data.reportdate)
         }
         Axios.post(API.PutSalesOrderLine, params, headers)
         .then(result => {
@@ -86,12 +105,30 @@ class Updateorderline extends Component {
             this.setState({reportingDate:setDate, reportingFlag: true})
         }
     }
+    changeSalesQuantity = (value) => {
+        this.setState({salesAmount: this.state.editSalesPriceFlag ? this.state.salesPrice*value : this.props.updatedata.SalesPrice*value, salesQuantity: value, editSalesQuantityFlag: true, editSalesFlag: true})
+    }
+
+    changeSalesPrice = (val) => {
+        let value = val.replace(',', '.');
+        this.setState({salesAmount: this.state.editSalesQuantityFlag ? this.state.salesQuantity*value : this.props.updatedata.salesquantity*value, salesPrice: value, editSalesPriceFlag: true, editSalesFlag: true}) 
+    }
+
+    changePurchaseQuantity = (value) => {
+        this.setState({purchaseAmount: this.state.editPurchasePriceFlag ? this.state.purchasePrice*value : this.props.updatedata.purchaseprice*value, purchaseQuantity: value, editPurchaseQuantityFlag: true, editPurchaseFlag: true})
+    }
+
+    changePurchasePrice = (val) => {
+        let value = val.replace(',', '.');
+        this.setState({purchaseAmount: this.state.editPurchaseQuantityFlag ? this.state.purchaseQuantity*value : this.props.updatedata.purchasequantity*value, purchasePrice: value, editPurchasePriceFlag: true, editPurchaseFlag: true}) 
+    }
 
     render(){
         let updateData = [];
         if(this.props.updatedata){
             updateData = this.props.updatedata;
         }
+        
         return (
             <Modal
                 show={this.props.show}
@@ -111,56 +148,65 @@ class Updateorderline extends Component {
                 <Form className="container product-form" onSubmit = { this.handleSubmit }>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text"> 
-                            <Form.Control type="text" name="product" defaultValue={updateData.productcode} readOnly placeholder={trls("Purchase_Price")} />
+                            <Form.Control type="text" name="product" required defaultValue={updateData.productcode} placeholder={trls("Purchase_Price")} />
                             <label className="placeholder-label">{trls('Product')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text"> 
-                            <Form.Control type="text" name="salesquantity" defaultValue={updateData.salesquantity} readOnly  placeholder={trls("Purchase_Price")} />
+                            <Form.Control type="number" name="salesquantity" required defaultValue={updateData.salesquantity} placeholder={trls("Purchase_Price")} onChange={(evt)=>this.changeSalesQuantity(evt.target.value)}/>
                             <label className="placeholder-label">{trls('Sales_Quantity')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
-                        <Col className="product-text"> 
-                            <Form.Control type="text" name="purchasequantity" defaultValue={updateData.purchasequantity} readOnly placeholder={trls("Purchase_Price")} />
-                            <label className="placeholder-label">{trls('Purchase_Quantity')}</label>
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} controlId="formPlaintextPassword">
-                        <Col className="product-text"> 
-                            <Form.Control type="text" name="purchaseprice" defaultValue={Common.formatMoney(updateData.purchaseprice)} readOnly placeholder={trls("Purchase_Price")} />
-                            <label className="placeholder-label">{trls('Purchase_Price')}</label>
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="salesprice" defaultValue={Common.formatMoney(updateData.SalesPrice)} readOnly placeholder={trls("Sales_Price")} />
+                            <Form.Control type="text" name="salesprice" required defaultValue={updateData.SalesPrice} placeholder={trls("Sales_Price")} onChange={(evt)=>this.changeSalesPrice(evt.target.value)} />
                             <label className="placeholder-label">{trls('Sales_Price')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text"> 
-                            <Form.Control type="text" name="purchaseprice" defaultValue={updateData.PurchaseUnit} readOnly placeholder={trls("Purchase_Price")} />
+                            <Form.Control type="number" name="purchasequantity" required defaultValue={updateData.purchasequantity} placeholder={trls("Purchase_Price")} onChange={(evt)=>this.changePurchaseQuantity(evt.target.value)} />
+                            <label className="placeholder-label">{trls('Purchase_Quantity')}</label>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="formPlaintextPassword">
+                        <Col className="product-text"> 
+                            <Form.Control type="text" name="purchaseprice" defaultValue={updateData.purchaseprice} placeholder={trls("Purchase_Price")} onChange={(evt)=>this.changePurchasePrice(evt.target.value)} />
+                            <label className="placeholder-label">{trls('Purchase_Price')}</label>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId="formPlaintextPassword">
+                        <Col className="product-text"> 
+                            <Form.Control type="text" name="purchaseprice" defaultValue={updateData.PurchaseUnit} placeholder={trls("Purchase_Price")} />
                             <label className="placeholder-label">{trls('Purchase_Unit')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="salesprice" defaultValue={updateData.SalesUnit} readOnly placeholder={trls("Sales_Price")} />
+                            <Form.Control type="text" name="salesprice" defaultValue={updateData.SalesUnit} placeholder={trls("Sales_Price")} />
                             <label className="placeholder-label">{trls('Sales_Unit')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="purhcaseamount" defaultValue={Common.formatMoney(updateData.purchaseamount)} readOnly placeholder={trls("Purchase_Amount")} />
-                            <label className="placeholder-label">{trls('Purchase_Amount')}</label>
+                            {/* <Form.Control type="text" name="salesamount" readOnly defaultValue={Common.formatMoney(updateData.SalesAmount)} placeholder={trls("Sales_Amount")} /> */}
+                            {!this.state.editSalesFlag?(
+                                <Form.Control type="text" name="salesamount" readOnly required placeholder={trls("Sales_Amount")} value={updateData.SalesAmount ? Common.formatMoney(updateData.SalesAmount): ''}/>
+                            ):
+                                <Form.Control type="text" name="salesamount" readOnly required placeholder={trls("Sales_Amount")} value={Common.formatMoney(this.state.salesAmount)}/>
+                            }
+                            <label className="placeholder-label">{trls('Sales_Amount')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            <Form.Control type="text" name="salesamount" defaultValue={Common.formatMoney(updateData.SalesAmount)} readOnly placeholder={trls("Sales_Amount")} />
-                            <label className="placeholder-label">{trls('Sales_Amount')}</label>
+                            {!this.state.editPurchaseFlag?(
+                                <Form.Control type="text" name="purchaseamount" readOnly required placeholder={trls("Purchase_Amount")} value={updateData.purchaseamount ? Common.formatMoney(updateData.purchaseamount): ''}/>
+                            ):
+                                <Form.Control type="text" name="purchaseamount" readOnly required placeholder={trls("Purchase_Amount")} value={Common.formatMoney(this.state.purchaseAmount)}/>
+                            }
+                            <label className="placeholder-label">{trls('Purchase_Amount')}</label>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
@@ -183,10 +229,15 @@ class Updateorderline extends Component {
                     </Form.Group>
                     <Form.Group as={Row} controlId="formPlaintextPassword">
                         <Col className="product-text">
-                            {this.state.reportingFlag || !this.props.updatedata ?( 
-                                <DatePicker name="reporingdate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={this.state.reportingDate} onChange = {(value, e)=>this.onChangeDate(value, e)} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event)}/>} />
-                                ) : <DatePicker name="reporingdate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={new Date( this.props.updatedata.ReportingDate)} onChange = {(value, e)=>this.onChangeDate(value, e)} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event)}/>} />
-                            } 
+                            {/* {this.state.reportingDateFlag || !this.props.updateData.ReportingDate ?( 
+                                <DatePicker name="reporingdate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={updateData.reportingDate} onChange = {(value, e)=>this.onChangeDate(value, e)} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event)}/>} />
+                                ) : <DatePicker name="reporingdate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={new Date( updateData.ReportingDate)} onChange = {(value, e)=>this.onChangeDate(value, e)} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event)}/>} />
+                            }  */}
+
+                            {this.state.reportingFlag || !updateData.ReportingDate ? (
+                                <DatePicker name="reportdate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={!this.state.reportingFlag ? new Date(updateData.ReportingDate):this.state.reportingDate} onChange = {(value, e)=>this.onChangeDate(value, e)} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event)}/>}/>
+                            ) : <DatePicker name="reportdate" className="myDatePicker" dateFormat="dd-MM-yyyy" selected={new Date(updateData.ReportingDate)} onChange = {(value, e)=>this.onChangeDate(value, e)} customInput={<input onKeyUp={(event)=>this.handleEnterKeyPress(event)}/>}/>
+                            }
                             <label className="placeholder-label">{trls('ReportingDate')}</label>
                         </Col>
                     </Form.Group>
