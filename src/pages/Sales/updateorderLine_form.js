@@ -58,7 +58,6 @@ class Updateorderline extends Component {
             data[key] = clientFormData.get(key);
         }
         var headers = SessionManager.shared().getAuthorizationHeader();
-        console.log("asdfasdf", data.salesamount)
         params = {
             orderlineid: this.props.updatedata.id,
             salesquantity: data.salesquantity,
