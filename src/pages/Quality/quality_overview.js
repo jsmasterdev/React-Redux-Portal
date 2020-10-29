@@ -420,6 +420,7 @@ createPdfDocument = () => {
 }
 
 showSetLanguage = (invoiceData) =>{
+    console.log("aaaaa", invoiceData)
     this.setState({LanguagemodalShow: true, pdfLang: invoiceData.language === "NL" ? "Dutch" : "English", invoicePdfId: invoiceData.Id})
     localStorage.setItem('nevema_lang_PDF', invoiceData.language === "NL" ? "nl_BE" : "en_US");
 }

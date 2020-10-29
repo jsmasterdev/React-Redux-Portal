@@ -33,7 +33,7 @@ export const formatDateThree = (startdate) => {
         mm='0'+mm;
     } 
     formatDate = yyyy+mm+dd;
-    return formatDate;
+    return String(formatDate);
 };
 
 export const formatMoney = (num) => {
